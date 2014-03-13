@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CREDIT SUISSE IS WILLING TO LICENSE THIS SPECIFICATION TO YOU ONLY UPON 
+	THE CONDITION THAT YOU ACCEPT ALL OF THE TERMS CONTAINED IN THIS AGREEMENT. 
+	PLEASE READ THE TERMS AND CONDITIONS OF THIS AGREEMENT CAREFULLY. BY DOWNLOADING 
+	THIS SPECIFICATION, YOU ACCEPT THE TERMS AND CONDITIONS OF THE AGREEMENT. 
+	IF YOU ARE NOT WILLING TO BE BOUND BY IT, SELECT THE "DECLINE" BUTTON AT 
+	THE BOTTOM OF THIS PAGE. Specification: JSR-354 Money and Currency API ("Specification") 
+	Copyright (c) 2012-2013, Credit Suisse All rights reserved. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>org.javamoney.adoptjsr</groupId>
+	<artifactId>moneymachine</artifactId>
+	<packaging>jar</packaging>
+
+	<version>0.1-SNAPSHOT</version>
+
+	<name>Money Machine (API Taestsuite)</name>
+	<url>http://java.net/projects/javamoney</url>
+	<inceptionYear>2014</inceptionYear>
+	<description>JSR 354 provides an API for representing, transporting, and performing comprehensive calculations with Money and Currency. 
+	This module is an API test suite to guide a workshop to gain feedback on the API.</description>
+
+	<organization>
+		<name>JavaMoney</name>
+		<url>http://javamoney.org</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Apache 2 License</name>
+			<comments>Spec</comments>
+			<url>LICENSE.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<jsr.version>0.8-SNAPSHOT</jsr.version>
+        <jdkVersion>1.7</jdkVersion>
+		<java.source.version>1.7</java.source.version>
+		<java.target.version>1.7</java.target.version>
+		<maven.compile.targetLevel>${jdkVersion}</maven.compile.targetLevel>
+		<maven.compile.sourceLevel>${jdkVersion}</maven.compile.sourceLevel>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<moduleDir>.</moduleDir>
+		<basedir>.</basedir>
+		<!-- Dependency versions -->
+		<junit.version>4.8.2</junit.version>
+
+		<license.licenseName>jcp_spec</license.licenseName>
+		<license.licenseResolver>src/license</license.licenseResolver>
+
+	</properties>
+
+	<developers>
+		<developer>
+			<id>atsticks</id>
+			<name>Anatole Tresch</name>
+			<organization>Credit Suisse</organization>
+			<roles>
+				<role>Specification Lead</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<prerequisites>
+		<maven>3.0.4</maven>
+	</prerequisites>
+
+	<scm>
+		<connection>scm:git:https://github.com/atsticks/javamachine.git</connection>
+		<tag>master</tag>
+		<developerConnection>scm:git:https://github.com/atsticks/javamaschine.git</developerConnection>
+		<url>https://github.com/atsticks/javamaschine</url>
+	</scm>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.money</groupId>
+				<artifactId>money-api</artifactId>
+				<version>${jsr.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javamoney</groupId>
+				<artifactId>moneta</artifactId>
+				<version>${jsr.version}</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.money</groupId>
+			<artifactId>money-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.javamoney</groupId>
+			<artifactId>moneta</artifactId>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+		
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.4</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>2.2</version>
+			</extension>
+		</extensions>
+	</build>
+
+</project>
