@@ -1,22 +1,21 @@
 /*
- * CREDIT SUISSE IS WILLING TO LICENSE THIS SPECIFICATION TO YOU ONLY UPON THE
- * CONDITION THAT YOU ACCEPT ALL OF THE TERMS CONTAINED IN THIS AGREEMENT.
- * PLEASE READ THE TERMS AND CONDITIONS OF THIS AGREEMENT CAREFULLY. BY
- * DOWNLOADING THIS SPECIFICATION, YOU ACCEPT THE TERMS AND CONDITIONS OF THE
- * AGREEMENT. IF YOU ARE NOT WILLING TO BE BOUND BY IT, SELECT THE "DECLINE"
- * BUTTON AT THE BOTTOM OF THIS PAGE. Specification: JSR-354 Money and Currency
- * API ("Specification") Copyright (c) 2012-2013, Credit Suisse All rights
- * reserved.
+ * Copyright (c) 2012, 2013, Werner Keil, Credit Suisse (Anatole Tresch). Licensed under the Apache
+ * License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License. Contributors: Anatole Tresch - initial version.
  */
-
 package org.javamoney.adopjsr;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
- * Class to do algorithmic calculations on amounts.
+ * Class to perform algorithmic calculations and some of the provided external functions on amounts.
  * Created by Anatole on 07.03.14.
  */
 public class MoneyAlgorithmics{
@@ -76,18 +75,17 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * compare amounts for their numeric value (currency will always be identical).
+     * Sort the given amounts.
      *
-     * @param amt  the amount
-     * @param amt2 the other aamount
+     * @param amounts the amounts
      * @return
      */
-    public int compareAmounts(MonetaryAmount amt, MonetaryAmount amt2){
+    public List<MonetaryAmount> sortAmounts(MonetaryAmount... amounts){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Query the sum of only thos amounts, that are of the given currency.
+     * Query the sum of only the given amounts, that are of the given currency.
      *
      * @param targetCurrency the target currency
      * @param amounts        the amounts
@@ -108,11 +106,12 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Calulculate the given percentage.
+     * Calulculate the given percentage of an amount.
      *
      * @param amt     the amount
      * @param percent the percentage
      * @return
+     * @see org.javamoney.moneta.function.MonetaryFunctions
      */
     public MonetaryAmount calculatePercent(MonetaryAmount amt, double percent){
         throw new UnsupportedOperationException();
@@ -124,8 +123,9 @@ public class MoneyAlgorithmics{
      * @param amt    the amount
      * @param permil the percentage
      * @return
+     * @see org.javamoney.moneta.function.MonetaryFunctions
      */
-    public MonetaryAmount calculatePermil(MonetaryAmount amt, int permil){
+    public MonetaryAmount calculatePermil(MonetaryAmount amt, double permil){
         throw new UnsupportedOperationException();
     }
 
@@ -134,6 +134,7 @@ public class MoneyAlgorithmics{
      *
      * @param amt the amount
      * @return
+     * @see org.javamoney.moneta.function.MonetaryFunctions
      */
     public MonetaryAmount getMajorPart(MonetaryAmount amt){
         throw new UnsupportedOperationException();
@@ -159,6 +160,9 @@ public class MoneyAlgorithmics{
      * @param amount the amount
      * @param factor the factor
      * @return the correct result
+     * @see javax.money.MonetaryAmount#getMonetaryContext()
+     * @see javax.money.MonetaryContext
+     * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
      */
     public MonetaryAmount multiplyAdvanced(MonetaryAmount amount, BigDecimal factor){
         throw new UnsupportedOperationException();
@@ -171,6 +175,9 @@ public class MoneyAlgorithmics{
      * @param amount the amount
      * @param amt2   the amoun to be
      * @return
+     * @see javax.money.MonetaryAmount#getMonetaryContext()
+     * @see javax.money.MonetaryContext
+     * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
      */
     public MonetaryAmount subtractAdvanced(MonetaryAmount amount, MonetaryAmount amt2){
         throw new UnsupportedOperationException();
@@ -183,6 +190,9 @@ public class MoneyAlgorithmics{
      * @param amount the amount
      * @param factor the factor
      * @return
+     * @see javax.money.MonetaryAmount#getMonetaryContext()
+     * @see javax.money.MonetaryContext
+     * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
      */
     public MonetaryAmount divideAdvanced(MonetaryAmount amount, BigDecimal factor){
         throw new UnsupportedOperationException();

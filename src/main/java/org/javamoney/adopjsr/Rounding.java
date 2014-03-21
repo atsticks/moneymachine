@@ -1,20 +1,67 @@
 /*
- * CREDIT SUISSE IS WILLING TO LICENSE THIS SPECIFICATION TO YOU ONLY UPON THE
- * CONDITION THAT YOU ACCEPT ALL OF THE TERMS CONTAINED IN THIS AGREEMENT.
- * PLEASE READ THE TERMS AND CONDITIONS OF THIS AGREEMENT CAREFULLY. BY
- * DOWNLOADING THIS SPECIFICATION, YOU ACCEPT THE TERMS AND CONDITIONS OF THE
- * AGREEMENT. IF YOU ARE NOT WILLING TO BE BOUND BY IT, SELECT THE "DECLINE"
- * BUTTON AT THE BOTTOM OF THIS PAGE. Specification: JSR-354 Money and Currency
- * API ("Specification") Copyright (c) 2012-2013, Credit Suisse All rights
- * reserved.
+ * Copyright (c) 2012, 2013, Werner Keil, Credit Suisse (Anatole Tresch). Licensed under the Apache
+ * License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License. Contributors: Anatole Tresch - initial version.
  */
-
 package org.javamoney.adopjsr;
 
+import javax.money.MonetaryAmount;
+import javax.money.MonetaryOperator;
+import javax.money.MonetaryRoundings;
+
 /**
- * Implement rounding based on currency, as well as using custom rounding.
+ * Access roundings based on currency, as well as using customized rounding.
+ *
+ * @see MonetaryRoundings
  * Created by Anatole on 08.03.14.
  */
 public class Rounding{
-    // TODO
+
+    /**
+     * Round Amounts with the default rounding.
+     *
+     * @return
+     */
+    public MonetaryAmount roundWithDefaultRounding(MonetaryAmount amount){
+        // TODO implement this
+        return null;
+    }
+
+    /**
+     * Round Amounts with a default rounding for the given currency.
+     *
+     * @return
+     */
+    public MonetaryAmount roundBasedOnCurrency(MonetaryAmount amount){
+        // TODO implement this
+        return null;
+    }
+
+    /**
+     * Round Amounts with a cash rounding for the given currency.
+     *
+     * @return
+     */
+    public MonetaryAmount roundForCash(MonetaryAmount amount){
+        // TODO implement this
+        return null;
+    }
+
+    /**
+     * Round Amounts with a mathematical rounding:
+     * <ul>
+     *     <li>Use {@link java.math.RoundingMode#HALF_UP}</li>
+     *     <li>Use a scale of 3</li>
+     * </ul>
+     * @see javax.money.MonetaryContext
+     * @return
+     */
+    public MonetaryAmount roundMathematical(MonetaryAmount amount){
+        // TODO implement this
+        return null;
+    }
 }

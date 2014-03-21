@@ -25,6 +25,7 @@ public class Basics{
 
     /**
      * Get a CurrencyUnit using a currency code.
+     *
      * @param currencyCode the currency code
      * @return the corresponding CurrencyUnit instance.
      */
@@ -33,7 +34,7 @@ public class Basics{
     }
 
     /**
-     * Get a CurrencyUnit using a Locale, modeling the country.
+     * Get a CurrencyUnit using a Locale, modeling a country.
      *
      * @param locale The country locale.
      * @return the corresponding CurrencyUnit instance.
@@ -49,6 +50,7 @@ public class Basics{
      * @param numericCode          the numeric code.
      * @param defaultFractionUnits the default fraction units.
      * @return the new currency unit instance created.
+     * @see org.javamoney.moneta.BuildableCurrencyUnit
      */
     public CurrencyUnit buildCustomCurrency(String currencyCode, int numericCode, int defaultFractionUnits){
         throw new UnsupportedOperationException();
@@ -62,6 +64,7 @@ public class Basics{
      * @param defaultFractionUnits the default fraction units.
      * @return the CurrencyUnit. Additionally the unit should be registered,
      * so it accessible from {@link }MonetaryCurrencies}.
+     * @see org.javamoney.moneta.BuildableCurrencyUnit
      */
     public CurrencyUnit buildAndRegisterCustomCurrency(String currencyCode, int numericCode, int defaultFractionUnits){
         throw new UnsupportedOperationException();
@@ -114,7 +117,25 @@ public class Basics{
      * @param context      the Monetary context
      * @return an according money instance
      */
-    public MonetaryAmount getMoney(Number number, String currencyCode, MonetaryContext context){
+    public MonetaryAmount getMoneyWithContext(Number number, String currencyCode, MonetaryContext context){
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Creates a MonetaryAmount that covers the following capabilities:
+     * <ul>
+     * <li>It must support a precision of 256.</li>
+     * <li>It must support a scale of 128.</li>
+     * <li>It must use {@link java.math.RoundingMode#FLOOR}</li>
+     * </ul>
+     * Within this test you should query a corresponding implementation type and then create the corresponding amount.
+     *
+     * @param number       the amount
+     * @param currencyCode the currency code
+     * @return an according money instance
+     * @see javax.money.MonetaryContext
+     */
+    public MonetaryAmount getMoneyWithSpecificCapabilities(Number number, String currencyCode){
         throw new UnsupportedOperationException();
     }
 }

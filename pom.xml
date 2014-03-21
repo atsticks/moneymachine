@@ -36,12 +36,10 @@
 	</licenses>
 
 	<properties>
-		<jsr.version>0.8-SNAPSHOT</jsr.version>
+		<jsr.version>0.9-SNAPSHOT</jsr.version>
         <jdkVersion>1.7</jdkVersion>
-		<java.source.version>1.7</java.source.version>
-		<java.target.version>1.7</java.target.version>
-		<maven.compile.targetLevel>${jdkVersion}</maven.compile.targetLevel>
-		<maven.compile.sourceLevel>${jdkVersion}</maven.compile.sourceLevel>
+        <maven.compile.targetLevel>${jdkVersion}</maven.compile.targetLevel>
+        <maven.compile.sourceLevel>${jdkVersion}</maven.compile.sourceLevel>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<moduleDir>.</moduleDir>
@@ -122,7 +120,6 @@
 		<dependency>
 			<groupId>org.javamoney</groupId>
 			<artifactId>moneta</artifactId>
-			<type>jar</type>
 		</dependency>
 	</dependencies>
 
@@ -141,6 +138,23 @@
 				<version>2.2</version>
 			</extension>
 		</extensions>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <debug>true</debug>
+                    <optimize>true</optimize>
+                    <verbose>true</verbose>
+                    <source>${maven.compile.sourceLevel}</source>
+                    <target>${maven.compile.targetLevel}</target>
+                    <compilerArgument>-g</compilerArgument>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 
 </project>
