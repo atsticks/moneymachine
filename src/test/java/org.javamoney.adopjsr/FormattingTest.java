@@ -67,10 +67,10 @@ public class FormattingTest{
                 new AmountStyle.Builder(Locale.ENGLISH).setCurrencyStyle(CurrencyStyle.SYMBOL).setGroupingSizes(3, 2)
                         .setPattern(" ##0.00  ¤ Mio;[##0.00] ¤ Mio").setDisplayConversion(outOp)
                         .setParseConversion(inOp).create());
-        Money m = Money.of("CHF", 2323233223232424.23);
+        Money m = Money.of(2323233223232424.23,"CHF");
         MonetaryAmountFormat toTest = formatting.createCustomFormat();
         assertEquals(fmt.format(m), toTest.format(m));
-        m = Money.of("CHF", -2323233223232424.23);
+        m = Money.of( -2323233223232424.23,"CHF");
         assertEquals(fmt.format(m), toTest.format(m));
     }
 }

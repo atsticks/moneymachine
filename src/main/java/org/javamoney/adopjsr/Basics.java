@@ -9,10 +9,7 @@
  */
 package org.javamoney.adopjsr;
 
-import javax.money.CurrencyUnit;
-import javax.money.MonetaryAmount;
-import javax.money.MonetaryAmountFactory;
-import javax.money.MonetaryContext;
+import javax.money.*;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -30,7 +27,8 @@ public class Basics{
      * @return the corresponding CurrencyUnit instance.
      */
     public CurrencyUnit getProvidedCurrency(String currencyCode){
-        throw new UnsupportedOperationException();
+        // throw new UnsupportedOperationException();
+        return MonetaryCurrencies.getCurrency(currencyCode);
     }
 
     /**

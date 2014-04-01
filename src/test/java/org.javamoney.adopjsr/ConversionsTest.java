@@ -98,7 +98,7 @@ public class ConversionsTest{
                 new CurrencyUnit[]{MonetaryCurrencies.getCurrency("CHF"), MonetaryCurrencies.getCurrency("EUR"),
                         MonetaryCurrencies.getCurrency("USD"), MonetaryCurrencies.getCurrency("JPY"),
                         MonetaryCurrencies.getCurrency("INR"),};
-        Money[] moneys = new Money[]{Money.of("CHF", 10), Money.of("USD", 123.34), Money.of("INR", 2300.30)};
+        Money[] moneys = new Money[]{Money.of( 10,"CHF"), Money.of( 123.34,"USD"), Money.of( 2300.30,"INR")};
         long now = System.currentTimeMillis();
         long[] times = new long[]{now, now - ONEYEAR, now - (2 * ONEYEAR), now - (3 * ONEYEAR)};
         for(CurrencyUnit u1 : units){

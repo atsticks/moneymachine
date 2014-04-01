@@ -36,120 +36,119 @@ public class MoneyAlgorithmicsTest{
 
     @Test
     public void testAddAll() throws Exception{
-        MonetaryAmount amt = Money.of("CHF", 10);
-        assertEquals(Money.of("CHF", 20), alg.addAll(Money.of("CHF", 10), Money.of("CHF", 10)));
-        assertEquals(Money.of("CHF", 20.8), alg.addAll(Money.of("CHF", 10.5), Money.of("CHF", 10.3)));
-        assertEquals(Money.of("CHF", -90), alg.addAll(Money.of("CHF", -100.3), Money.of("CHF", 10.3)));
-        assertEquals(Money.of("CHF", 0), alg.addAll(Money.of("CHF", 0), Money.of("CHF", 0)));
-        assertEquals(Money.of("CHF", 283976.34), alg.addAll(Money.of("CHF", 283976.34), Money.of("CHF", 0)));
+        assertEquals(Money.of( 20,"CHF"), alg.addAll(Money.of( 10,"CHF"), Money.of( 10,"CHF")));
+        assertEquals(Money.of( 20.8,"CHF"), alg.addAll(Money.of( 10.5,"CHF"), Money.of( 10.3,"CHF")));
+        assertEquals(Money.of( -90,"CHF"), alg.addAll(Money.of( -100.3,"CHF"), Money.of( 10.3,"CHF")));
+        assertEquals(Money.of( 0,"CHF"), alg.addAll(Money.of( 0,"CHF"), Money.of( 0,"CHF")));
+        assertEquals(Money.of( 283976.34,"CHF"), alg.addAll(Money.of( 283976.34,"CHF"), Money.of( 0,"CHF")));
     }
 
     @Test
     public void testMultiply() throws Exception{
-        assertEquals(Money.of("CHF", 100), alg.multiply(Money.of("CHF", 10), 10));
-        assertEquals(Money.of("CHF", 101), alg.multiply(Money.of("CHF", 10.1), 10));
-        assertEquals(Money.of("CHF", 21323120), alg.multiply(Money.of("CHF", 2132312), 10));
-        assertEquals(Money.of("CHF", 100), alg.multiply(Money.of("CHF", -100), -1));
+        assertEquals(Money.of( 100,"CHF"), alg.multiply(Money.of( 10,"CHF"), 10));
+        assertEquals(Money.of( 101,"CHF"), alg.multiply(Money.of( 10.1,"CHF"), 10));
+        assertEquals(Money.of( 21323120,"CHF"), alg.multiply(Money.of( 2132312,"CHF"), 10));
+        assertEquals(Money.of( 100,"CHF"), alg.multiply(Money.of( -100,"CHF"), -1));
     }
 
     @Test
     public void testSubtract() throws Exception{
-        assertEquals(Money.of("CHF", 0), alg.multiply(Money.of("CHF", 10), 10));
-        assertEquals(Money.of("CHF", -10), alg.multiply(Money.of("CHF", 10), 120));
-        assertEquals(Money.of("CHF", -2.5), alg.multiply(Money.of("CHF", 10), 12.5));
-        assertEquals(Money.of("CHF", 0.06), alg.multiply(Money.of("CHF", 10.56), 10.5));
+        assertEquals(Money.of( 0,"CHF"), alg.multiply(Money.of( 10,"CHF"), 10));
+        assertEquals(Money.of( -10,"CHF"), alg.multiply(Money.of( 10,"CHF"), 120));
+        assertEquals(Money.of( -2.5,"CHF"), alg.multiply(Money.of( 10,"CHF"), 12.5));
+        assertEquals(Money.of( 0.06,"CHF"), alg.multiply(Money.of( 10.56,"CHF"), 10.5));
     }
 
     @Test
     public void testDivide() throws Exception{
-        assertEquals(Money.of("CHF", 1), alg.multiply(Money.of("CHF", 10), 10));
-        assertEquals(Money.of("CHF", 1), alg.multiply(Money.of("CHF", 10.345), 10.345));
-        assertEquals(Money.of("CHF", 10.345), alg.multiply(Money.of("CHF", 10.345), 1));
-        assertEquals(Money.of("CHF", 0.0837991089509923), alg.multiply(Money.of("CHF", 10.345), 123.45));
+        assertEquals(Money.of( 1,"CHF"), alg.multiply(Money.of( 10,"CHF"), 10));
+        assertEquals(Money.of( 1,"CHF"), alg.multiply(Money.of( 10.345,"CHF"), 10.345));
+        assertEquals(Money.of( 10.345,"CHF"), alg.multiply(Money.of( 10.345,"CHF"), 1));
+        assertEquals(Money.of( 0.0837991089509923,"CHF"), alg.multiply(Money.of( 10.345,"CHF"), 123.45));
     }
 
     @Test
     public void testScaleByTen() throws Exception{
-        assertEquals(Money.of("CHF", 100), alg.scaleByTen(Money.of("CHF", 10), 1));
-        assertEquals(Money.of("CHF", 123234405.6), alg.scaleByTen(Money.of("CHF", 123234.4056), 3));
+        assertEquals(Money.of( 100,"CHF"), alg.scaleByTen(Money.of( 10,"CHF"), 1));
+        assertEquals(Money.of( 123234405.6,"CHF"), alg.scaleByTen(Money.of( 123234.4056,"CHF"), 3));
     }
 
     @Test
     public void testSortAmounts() throws Exception{
         List<MonetaryAmount> amounts =
-                alg.sortAmounts(Money.of("CHF", 0), FastMoney.of("CHF", 1), Money.of("CHF", -200),
-                                FastMoney.of("USD", 210));
+                alg.sortAmounts(Money.of( 0,"CHF"), FastMoney.of( 1,"CHF"), Money.of( -200,"CHF"),
+                                FastMoney.of(210,"USD"));
         List<MonetaryAmount> sortedAmounts = new ArrayList<>();
-        sortedAmounts.add(Money.of("CHF", 0));
-        sortedAmounts.add(FastMoney.of("CHF", 1));
-        sortedAmounts.add(Money.of("CHF", -200));
-        sortedAmounts.add(FastMoney.of("USD", 210));
+        sortedAmounts.add(Money.of( 0,"CHF"));
+        sortedAmounts.add(FastMoney.of( 1,"CHF"));
+        sortedAmounts.add(Money.of( -200,"CHF"));
+        sortedAmounts.add(FastMoney.of(210,"USD"));
         Collections.sort(sortedAmounts);
     }
 
     @Test
     public void testQuerySumOf() throws Exception{
         MonetaryAmount amt =
-                alg.querySumOf(MonetaryCurrencies.getCurrency("CHF"), FastMoney.of("CHF", 10), Money.of("CHF", 0),
-                               FastMoney.of("USD", 1), Money.of("CHF", 200.45), FastMoney.of("USD", 210));
-        assertTrue(Money.of("CHF", 210.45).isEqualTo(amt));
+                alg.querySumOf(MonetaryCurrencies.getCurrency("CHF"), FastMoney.of( 10,"CHF"), Money.of( 0,"CHF"),
+                               FastMoney.of( 1,"USD"), Money.of( 200.45,"CHF"), FastMoney.of(210,"USD"));
+        assertTrue(Money.of( 210.45,"CHF").isEqualTo(amt));
     }
 
     @Test
     public void testCalculateReciprocal() throws Exception{
-        MonetaryAmount amt = alg.calculateReciprocal(Money.of("CHF", 10));
-        assertTrue(Money.of("CHF", 210.45).isEqualTo(amt));
+        MonetaryAmount amt = alg.calculateReciprocal(Money.of( 10,"CHF"));
+        assertTrue(Money.of( 210.45,"CHF").isEqualTo(amt));
     }
 
     @Test
     public void testCalculatePercent() throws Exception{
-        MonetaryAmount amt = alg.calculatePercent(FastMoney.of("EUR", 100), 20.5);
-        assertTrue(Money.of("EUR", 20.5).isEqualTo(amt));
-        amt = alg.calculatePercent(Money.of("EUR", 10.45), 1.345);
-        assertTrue(Money.of("EUR", 0.1405525).isEqualTo(amt));
+        MonetaryAmount amt = alg.calculatePercent(FastMoney.of(100,"EUR"), 20.5);
+        assertTrue(Money.of(20.5,"EUR").isEqualTo(amt));
+        amt = alg.calculatePercent(Money.of(10.45,"EUR"), 1.345);
+        assertTrue(Money.of(0.1405525,"EUR").isEqualTo(amt));
     }
 
     @Test
     public void testCalculatePermil() throws Exception{
-        MonetaryAmount amt = alg.calculatePermil(FastMoney.of("EUR", 100), 20.5);
-        assertTrue(Money.of("EUR", 2.05).isEqualTo(amt));
-        amt = alg.calculatePermil(Money.of("EUR", 10.45), 1.345);
-        assertTrue(Money.of("EUR", 0.01405525).isEqualTo(amt));
+        MonetaryAmount amt = alg.calculatePermil(FastMoney.of(100,"EUR"), 20.5);
+        assertTrue(Money.of(2.05,"EUR").isEqualTo(amt));
+        amt = alg.calculatePermil(Money.of(10.45,"EUR"), 1.345);
+        assertTrue(Money.of(0.01405525,"EUR").isEqualTo(amt));
     }
 
     @Test
     public void testGetCompoundInterest() throws Exception{
-        MonetaryAmount amt1 = alg.getCompoundInterest(FastMoney.of("EUR", 100), 10.5, 1);
-        assertTrue(Money.of("EUR", 110.5).isEqualTo(amt1));
-        MonetaryAmount amt2 = alg.getCompoundInterest(FastMoney.of("EUR", 100), 10.5, 1);
+        MonetaryAmount amt1 = alg.getCompoundInterest(FastMoney.of(100,"EUR"), 10.5, 1);
+        assertTrue(Money.of(110.5,"EUR").isEqualTo(amt1));
+        MonetaryAmount amt2 = alg.getCompoundInterest(FastMoney.of(100,"EUR"), 10.5, 1);
         assertTrue(amt1.multiply(0.105).isEqualTo(amt2));
-        MonetaryAmount amt3 = alg.getCompoundInterest(FastMoney.of("EUR", 100), 10.5, 1);
+        MonetaryAmount amt3 = alg.getCompoundInterest(FastMoney.of(100,"EUR"), 10.5, 1);
         assertTrue(amt2.multiply(0.105).isEqualTo(amt3));
-        MonetaryAmount amt4 = alg.getCompoundInterest(FastMoney.of("EUR", 100), 10.5, 1);
+        MonetaryAmount amt4 = alg.getCompoundInterest(FastMoney.of(100,"EUR"), 10.5, 1);
         assertTrue(amt3.multiply(0.105).isEqualTo(amt4));
-        MonetaryAmount amt5 = alg.getCompoundInterest(FastMoney.of("EUR", 100), 10.5, 1);
+        MonetaryAmount amt5 = alg.getCompoundInterest(FastMoney.of(100,"EUR"), 10.5, 1);
         assertTrue(amt4.multiply(0.105).isEqualTo(amt5));
     }
 
     @Test
     public void testMultiplyAdvanced() throws Exception{
-        MonetaryAmount amt1 = alg.multiplyAdvanced(FastMoney.of("EUR", 100), BigDecimal.valueOf(Long.MAX_VALUE));
-        assertTrue(Money.of("EUR", 100, new MonetaryContext.Builder().set(MathContext.UNLIMITED).create())
+        MonetaryAmount amt1 = alg.multiplyAdvanced(FastMoney.of(100,"EUR"), BigDecimal.valueOf(Long.MAX_VALUE));
+        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setAttribute(MathContext.UNLIMITED).create())
                            .multiply(BigDecimal.valueOf(Long.MAX_VALUE)).isEqualTo(amt1));
     }
 
     @Test
     public void testSubtractAdvanced() throws Exception{
-        MonetaryAmount amt1 = alg.subtractAdvanced(FastMoney.of("EUR", 100),
-                                                   Money.of("EUR", new BigDecimal("0.0000000000000000000001")));
-        assertTrue(Money.of("EUR", 100, new MonetaryContext.Builder().set(MathContext.UNLIMITED).create())
-                           .subtract(Money.of("EUR", new BigDecimal("0.0000000000000000000001"))).isEqualTo(amt1));
+        MonetaryAmount amt1 = alg.subtractAdvanced(FastMoney.of(100,"EUR"),
+                                                   Money.of(new BigDecimal("0.0000000000000000000001"),"EUR"));
+        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setAttribute(MathContext.UNLIMITED).create())
+                           .subtract(Money.of(new BigDecimal("0.0000000000000000000001"),"EUR")).isEqualTo(amt1));
     }
 
     @Test
     public void testDivideAdvanced() throws Exception{
-        MonetaryAmount amt1 = alg.divideAdvanced(FastMoney.of("EUR", 100), new BigDecimal("0.0000000000000000000001"));
-        assertTrue(Money.of("EUR", 100, new MonetaryContext.Builder().set(MathContext.UNLIMITED).create())
+        MonetaryAmount amt1 = alg.divideAdvanced(FastMoney.of(100,"EUR"), new BigDecimal("0.0000000000000000000001"));
+        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setAttribute(MathContext.UNLIMITED).create())
                            .divide(new BigDecimal("0.0000000000000000000001")).isEqualTo(amt1));
     }
 }

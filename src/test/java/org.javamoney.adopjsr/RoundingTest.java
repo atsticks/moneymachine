@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import javax.money.MonetaryContext;
 import javax.money.MonetaryRoundings;
-
 import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
@@ -29,9 +28,10 @@ public class RoundingTest{
 
     private Rounding rnd = new Rounding();
     private Money[] moneys =
-            new Money[]{org.javamoney.moneta.Money.of("CHF", 200.12345678), Money.of("JPY", 100.1234567), Money.of(
-                    new BuildableCurrencyUnit.Builder("API-TEST").setNumericCode(1234).setDefaultFractionDigits(5)
-                            .create(), 100.1234567)};
+            new Money[]{org.javamoney.moneta.Money.of(200.12345678, "CHF"), Money.of(100.1234567, "JPY"),
+                    Money.of(100.1234567, new BuildableCurrencyUnit.Builder("API-TEST").setNumericCode(1234)
+                                     .setDefaultFractionDigits(5).create()
+                    )};
 
     @Test
     public void testRoundWithDefaultRounding() throws Exception{
@@ -56,7 +56,7 @@ public class RoundingTest{
 
     @Test
     public void testRoundMathematical() throws Exception{
-        MonetaryContext ctx = new MonetaryContext.Builder().set(RoundingMode.HALF_UP).setMaxScale(3).create();
+        MonetaryContext ctx = new MonetaryContext.Builder().setAttribute(RoundingMode.HALF_UP).setMaxScale(3).create();
         for(Money m : moneys){
             assertEquals(m.with(MonetaryRoundings.getRounding(ctx)), rnd.roundMathematical(m));
         }
