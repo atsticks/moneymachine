@@ -9,8 +9,9 @@
  */
 package org.javamoney.adopjsr;
 
-import javax.money.format.AmountStyle;
-import javax.money.format.CurrencyStyle;
+import javax.money.format.AmountFormatContext;
+
+import org.javamoney.moneta.format.CurrencyStyle;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 import java.util.Locale;
@@ -37,7 +38,7 @@ public class Formatting{
      * @param style
      * @return
      */
-    public MonetaryAmountFormat getAmountFormat(AmountStyle style){
+    public MonetaryAmountFormat getAmountFormat(AmountFormatContext style){
         return MonetaryFormats.getAmountFormat(style);
     }
 
@@ -56,7 +57,7 @@ public class Formatting{
      */
     public MonetaryAmountFormat createCustomFormat(){
         return MonetaryFormats.getAmountFormat(
-                new AmountStyle.Builder(Locale.ENGLISH).setCurrencyStyle(CurrencyStyle.SYMBOL).setGroupingSizes(3, 2)
+                new AmountFormatContext.Builder(Locale.ENGLISH).setCurrencyStyle(CurrencyStyle.SYMBOL).setGroupingSizes(3, 2)
                         .setPattern(" ##0.00  ¤ Mio;[##0.00] ¤ Mio").create());
     }
 }

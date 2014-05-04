@@ -16,8 +16,8 @@ import org.junit.Test;
 
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryOperator;
-import javax.money.format.AmountStyle;
-import javax.money.format.CurrencyStyle;
+import javax.money.format.AmountFormatContext;
+import org.javamoney.moneta.format.CurrencyStyle;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 import java.text.DecimalFormat;
@@ -36,8 +36,8 @@ public class FormattingTest{
     @Test
     public void testGetAmountFormat() throws Exception{
         for(Locale loc: DecimalFormat.getAvailableLocales()){
-            MonetaryAmountFormat fmt = formatting.getAmountFormat(AmountStyle.of(loc));
-            assertEquals(fmt.getAmountStyle(), AmountStyle.of(loc));
+            MonetaryAmountFormat fmt = formatting.getAmountFormat(AmountFormatContext.of(loc));
+            assertEquals(fmt.getAmountFormatContext(), AmountFormatContext.of(loc));
         }
     }
 
@@ -64,7 +64,7 @@ public class FormattingTest{
             }
         };
         MonetaryAmountFormat fmt = MonetaryFormats.getAmountFormat(
-                new AmountStyle.Builder(Locale.ENGLISH).setCurrencyStyle(CurrencyStyle.SYMBOL).setGroupingSizes(3, 2)
+                new AmountFormatContext.Builder(Locale.ENGLISH).setCurrencyStyle(CurrencyStyle.SYMBOL).setGroupingSizes(3, 2)
                         .setPattern(" ##0.00  ¤ Mio;[##0.00] ¤ Mio").setDisplayConversion(outOp)
                         .setParseConversion(inOp).create());
         Money m = Money.of(2323233223232424.23,"CHF");
