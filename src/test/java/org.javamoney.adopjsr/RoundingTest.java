@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import javax.money.MonetaryContext;
 import javax.money.MonetaryRoundings;
+import javax.money.RoundingContext;
 import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +31,7 @@ public class RoundingTest{
     private Money[] moneys =
             new Money[]{org.javamoney.moneta.Money.of(200.12345678, "CHF"), Money.of(100.1234567, "JPY"),
                     Money.of(100.1234567, new BuildableCurrencyUnit.Builder("API-TEST").setNumericCode(1234)
-                                     .setDefaultFractionDigits(5).create()
+                                     .setDefaultFractionDigits(5).build()
                     )};
 
     @Test
@@ -50,13 +51,13 @@ public class RoundingTest{
     @Test
     public void testRoundForCash() throws Exception{
         for(Money m : moneys){
-            assertEquals(m.with(MonetaryRoundings.getCashRounding(m.getCurrency())), rnd.roundForCash(m));
+            assertEquals(m.with(MonetaryRoundings.getRounding(new RoundingContext.Builder().setCurrencyUnit(m.getCurrency()).setBoolean("cashRounding", true).build())), rnd.roundForCash(m));
         }
     }
 
     @Test
     public void testRoundMathematical() throws Exception{
-        MonetaryContext ctx = new MonetaryContext.Builder().setAttribute(RoundingMode.HALF_UP).setMaxScale(3).create();
+        RoundingContext ctx = new RoundingContext.Builder().setObject(RoundingMode.HALF_UP).setInt("maxScale", 3).build();
         for(Money m : moneys){
             assertEquals(m.with(MonetaryRoundings.getRounding(ctx)), rnd.roundMathematical(m));
         }

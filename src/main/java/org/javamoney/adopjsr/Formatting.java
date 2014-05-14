@@ -57,7 +57,7 @@ public class Formatting{
      */
     public MonetaryAmountFormat createCustomFormat(){
         return MonetaryFormats.getAmountFormat(
-                new AmountFormatContext.Builder(Locale.ENGLISH).setCurrencyStyle(CurrencyStyle.SYMBOL).setGroupingSizes(3, 2)
-                        .setPattern(" ##0.00  ¤ Mio;[##0.00] ¤ Mio").create());
+                new AmountFormatContext.Builder(Locale.ENGLISH).setObject(CurrencyStyle.SYMBOL).setAttribute("groupingSizes", new int[]{3, 2})
+                        .setText("pattern", " ##0.00  ¤ Mio;[##0.00] ¤ Mio").build());
     }
 }

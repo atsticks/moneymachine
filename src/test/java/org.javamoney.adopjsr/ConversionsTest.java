@@ -72,8 +72,11 @@ public class ConversionsTest{
                     boolean exception = false;
                     ExchangeRate expected = null;
                     try{
-                        expected = MonetaryConversions.getExchangeRateProvider("IMF")
-                                .getExchangeRate(u1, u2, ConversionContext.of(time));
+                        expected = MonetaryConversions.getExchangeRateProvider("IMF").getExchangeRate(u1, u2,
+                                                                                      new ConversionContext.Builder()
+                                                                                              .setTimestampMillis(
+                                                                                                      time)
+                                                                                              .build());
                     }
                     catch(Exception e){
                         exception = true;
@@ -98,7 +101,7 @@ public class ConversionsTest{
                 new CurrencyUnit[]{MonetaryCurrencies.getCurrency("CHF"), MonetaryCurrencies.getCurrency("EUR"),
                         MonetaryCurrencies.getCurrency("USD"), MonetaryCurrencies.getCurrency("JPY"),
                         MonetaryCurrencies.getCurrency("INR"),};
-        Money[] moneys = new Money[]{Money.of( 10,"CHF"), Money.of( 123.34,"USD"), Money.of( 2300.30,"INR")};
+        Money[] moneys = new Money[]{Money.of(10, "CHF"), Money.of(123.34, "USD"), Money.of(2300.30, "INR")};
         long now = System.currentTimeMillis();
         long[] times = new long[]{now, now - ONEYEAR, now - (2 * ONEYEAR), now - (3 * ONEYEAR)};
         for(CurrencyUnit u1 : units){
@@ -107,7 +110,10 @@ public class ConversionsTest{
                     boolean exception = false;
                     MonetaryAmount expected = null;
                     try{
-                        expected = m.with(MonetaryConversions.getConversion(u1, ConversionContext.of(time)));
+                        expected = m.with(MonetaryConversions.getConversion(u1, new ConversionContext.Builder()
+                                .setTimestampMillis(
+                                        time)
+                                .build()));
                     }
                     catch(Exception e){
                         exception = true;

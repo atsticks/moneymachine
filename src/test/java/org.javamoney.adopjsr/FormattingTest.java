@@ -51,22 +51,17 @@ public class FormattingTest{
 
     @Test
     public void testCreateCustomFormat() throws Exception{
-        MonetaryOperator outOp = new MonetaryOperator(){
-            @Override
-            public <T extends MonetaryAmount> T apply(T value){
-                return (T) value.divide(1000000);
-            }
-        };
+        MonetaryOperator outOp = (value) -> value.divide(1000000);
         MonetaryOperator inOp = new MonetaryOperator(){
             @Override
-            public <T extends MonetaryAmount> T apply(T value){
-                return (T) value.multiply(1000000);
+            public MonetaryAmount apply(MonetaryAmount value){
+                return value.multiply(1000000);
             }
         };
         MonetaryAmountFormat fmt = MonetaryFormats.getAmountFormat(
-                new AmountFormatContext.Builder(Locale.ENGLISH).setCurrencyStyle(CurrencyStyle.SYMBOL).setGroupingSizes(3, 2)
-                        .setPattern(" ##0.00  ¤ Mio;[##0.00] ¤ Mio").setDisplayConversion(outOp)
-                        .setParseConversion(inOp).create());
+                new AmountFormatContext.Builder(Locale.ENGLISH).setObject(CurrencyStyle.SYMBOL).setAttribute("GroupingSizes", new int[]{3, 2})
+                        .setText("pattern", " ##0.00  ¤ Mio;[##0.00] ¤ Mio").setAttribute("displayConversion", outOp)
+                        .setAttribute("parseConversion", inOp).build());
         Money m = Money.of(2323233223232424.23,"CHF");
         MonetaryAmountFormat toTest = formatting.createCustomFormat();
         assertEquals(fmt.format(m), toTest.format(m));

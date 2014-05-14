@@ -111,8 +111,8 @@ public class BasicsTest{
 
     @Test
     public void testGetMoneyWithContext() throws Exception{
-        MonetaryContext preciseCtx = new MonetaryContext.Builder().setFlavor(MonetaryContext.AmountFlavor.PRECISION).create();
-        MonetaryContext fastCtx = new MonetaryContext.Builder().setFlavor(MonetaryContext.AmountFlavor.PERFORMANCE).create();
+        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor","PRECISION").build();
+        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor","PERFORMANCE").build();
         MonetaryAmount amt = basics.getMoneyWithContext(new BigDecimal("10.50792323200000000000236823"), "CHF",
                                                         preciseCtx);
         assertNotNull(amt);
@@ -126,8 +126,8 @@ public class BasicsTest{
 
     @Test
     public void testGetMoneyWithSpecification() throws Exception{
-        MonetaryContext preciseCtx = new MonetaryContext.Builder().setFlavor(MonetaryContext.AmountFlavor.PRECISION).create();
-        MonetaryContext fastCtx = new MonetaryContext.Builder().setFlavor(MonetaryContext.AmountFlavor.PERFORMANCE).create();
+        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor","PRECISION").build();
+        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor","PERFORMANCE").build();
         MonetaryAmount amt = basics.getMoneyWithSpecificCapabilities(new BigDecimal("10.50792323200000000000236823"),
                                                                      "CHF");
         assertNotNull(amt);

@@ -133,7 +133,7 @@ public class MoneyAlgorithmicsTest{
     @Test
     public void testMultiplyAdvanced() throws Exception{
         MonetaryAmount amt1 = alg.multiplyAdvanced(FastMoney.of(100,"EUR"), BigDecimal.valueOf(Long.MAX_VALUE));
-        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setAttribute(MathContext.UNLIMITED).create())
+        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setObject(MathContext.UNLIMITED).build())
                            .multiply(BigDecimal.valueOf(Long.MAX_VALUE)).isEqualTo(amt1));
     }
 
@@ -141,14 +141,14 @@ public class MoneyAlgorithmicsTest{
     public void testSubtractAdvanced() throws Exception{
         MonetaryAmount amt1 = alg.subtractAdvanced(FastMoney.of(100,"EUR"),
                                                    Money.of(new BigDecimal("0.0000000000000000000001"),"EUR"));
-        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setAttribute(MathContext.UNLIMITED).create())
+        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setObject(MathContext.UNLIMITED).build())
                            .subtract(Money.of(new BigDecimal("0.0000000000000000000001"),"EUR")).isEqualTo(amt1));
     }
 
     @Test
     public void testDivideAdvanced() throws Exception{
         MonetaryAmount amt1 = alg.divideAdvanced(FastMoney.of(100,"EUR"), new BigDecimal("0.0000000000000000000001"));
-        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setAttribute(MathContext.UNLIMITED).create())
+        assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setObject(MathContext.UNLIMITED).build())
                            .divide(new BigDecimal("0.0000000000000000000001")).isEqualTo(amt1));
     }
 }
