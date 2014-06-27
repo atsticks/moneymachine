@@ -14,6 +14,7 @@ import javax.money.format.AmountFormatContext;
 import org.javamoney.moneta.format.CurrencyStyle;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
+import java.util.Collection;
 import java.util.Locale;
 
 /**
@@ -26,20 +27,32 @@ public class Formatting{
      * Access a predefined MonetaryFormat using the given style.
      *
      * @param locale the target locale
-     * @return
+     * @return the format instance
+     * @see javax.money.format.MonetaryFormats
      */
     public MonetaryAmountFormat getAmountFormat(Locale locale){
-        return MonetaryFormats.getAmountFormat(locale);
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Access a predefined MonetaryFormat using the given style.
      *
      * @param style
-     * @return
+     * @return the amount format instance
+     * @see javax.money.format.MonetaryFormats
      */
     public MonetaryAmountFormat getAmountFormat(AmountFormatContext style){
-        return MonetaryFormats.getAmountFormat(style);
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Access the locales, for which formatters are available.
+     *
+     * @return the locales available.
+     * @see javax.money.format.MonetaryFormats
+     */
+    public Collection<Locale> getAvailableLocales(){
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -56,8 +69,15 @@ public class Formatting{
      * @return
      */
     public MonetaryAmountFormat createCustomFormat(){
-        return MonetaryFormats.getAmountFormat(
-                new AmountFormatContext.Builder(Locale.ENGLISH).setObject(CurrencyStyle.SYMBOL).setAttribute("groupingSizes", new int[]{3, 2})
-                        .setText("pattern", " ##0.00  ¤ Mio;[##0.00] ¤ Mio").build());
+        throw new UnsupportedOperationException();
+    }
+
+
+    /**
+     * Get the formatter ID of the registered custom {@link javax.money.format.MonetaryAmountFormat}.
+     * @return the formatter ID
+     */
+    public String getRegisteredCustomFormat(){
+        return null;
     }
 }

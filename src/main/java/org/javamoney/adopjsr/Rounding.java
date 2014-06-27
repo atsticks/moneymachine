@@ -10,8 +10,8 @@
 package org.javamoney.adopjsr;
 
 import javax.money.MonetaryAmount;
-import javax.money.MonetaryOperator;
 import javax.money.MonetaryRoundings;
+import java.util.Collection;
 
 /**
  * Access roundings based on currency, as well as using customized rounding.
@@ -24,27 +24,23 @@ public class Rounding{
     /**
      * Round Amounts with the default rounding.
      *
-     * @return
+     * @return the rounded amount
+     * @see javax.money.MonetaryRoundings
      */
     public MonetaryAmount roundWithDefaultRounding(MonetaryAmount amount){
         // TODO implement this
         return null;
     }
 
-    /**
-     * Round Amounts with a default rounding for the given currency.
-     *
-     * @return
-     */
-    public MonetaryAmount roundBasedOnCurrency(MonetaryAmount amount){
-        // TODO implement this
-        return null;
-    }
 
     /**
-     * Round Amounts with a cash rounding for the given currency.
+     * Round Amounts with a cash rounding.<p/>
+     * <b>Hint: </b>Set the 'cashRounding' property to {@code true},
+     * when accessing the rounding.
      *
-     * @return
+     * @return the rounded amount
+     * @see javax.money.MonetaryRoundings
+     * @see javax.money.RoundingContext
      */
     public MonetaryAmount roundForCash(MonetaryAmount amount){
         // TODO implement this
@@ -54,13 +50,35 @@ public class Rounding{
     /**
      * Round Amounts with a mathematical rounding:
      * <ul>
-     *     <li>Use {@link java.math.RoundingMode#HALF_UP}</li>
-     *     <li>Use a scale of 3</li>
-     * </ul>
+     * <li>Use {@link java.math.RoundingMode#HALF_UP}</li>
+     * <li>Use a scale of 3</li>
+     * </ul><p/>
+     * <b>Hint: </b>Pass the according MathContext as a parameter.
+     *
+     * @return the rounded amount
      * @see javax.money.MonetaryContext
-     * @return
      */
     public MonetaryAmount roundMathematical(MonetaryAmount amount){
+        // TODO implement this
+        return null;
+    }
+
+    /**
+     * Evaluate which roundings are currently available in the system.
+     * @return the array of rounding ids currently known.
+     */
+    public Collection<String> getKnownRoundings(){
+        // TODO implement this
+        return null;
+    }
+
+    /**
+     * Register your own custom rounding. The test will check, if your rounding is available and perform a test
+     * rounding.
+     *
+     * @return the rounding name of your custom rounding.
+     */
+    public String getCustomRoundingName(){
         // TODO implement this
         return null;
     }

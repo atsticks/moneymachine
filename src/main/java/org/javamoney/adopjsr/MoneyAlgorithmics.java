@@ -11,6 +11,8 @@ package org.javamoney.adopjsr;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
+import javax.money.MonetaryOperator;
+import javax.money.MonetaryQuery;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,7 +23,7 @@ import java.util.List;
 public class MoneyAlgorithmics{
 
     /**
-     * Add all amounts.
+     * Add up all {@link MonetaryAmount} instances.
      *
      * @param amounts the amounts (only in one single currency).
      * @return the sum of all amounts
@@ -31,7 +33,7 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Multiply amount with the given factor.
+     * Multiply the {@link MonetaryAmount} with the given factor.
      *
      * @param amount the amount
      * @param factor the the factor
@@ -42,7 +44,7 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * subtract two amounts.
+     * subtract two {@link MonetaryAmount}s.
      *
      * @param amount the amount
      * @param amt2   the amoun to be
@@ -53,7 +55,7 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Divei an amount.
+     * Divide an {@link MonetaryAmount}.
      *
      * @param amount the amount
      * @param factor the factor
@@ -64,7 +66,7 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Scale an mount.
+     * Scale an {@link MonetaryAmount}.
      *
      * @param amount the amount
      * @param scale  the scale factor
@@ -75,7 +77,7 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Sort the given amounts.
+     * Sort the given {@link MonetaryAmount}s, by currency and number.
      *
      * @param amounts the amounts
      * @return
@@ -85,32 +87,32 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Query the sum of only the given amounts, that are of the given currency.
+     * Calculate the sum of only the given amounts, that are of the given currency.
      *
      * @param targetCurrency the target currency
-     * @param amounts        the amounts
-     * @return
+     * @param amounts        the amounts to filter and add
+     * @return the amount's total, in the given target currency.
      */
     public MonetaryAmount querySumOf(CurrencyUnit targetCurrency, MonetaryAmount... amounts){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Calculate the reciprocal (1/amount).
+     * Calculate the reciprocal of the given {@link MonetaryAmount} (1/amount).
      *
-     * @param amount the amount
-     * @return
+     * @param amount the amount, with the same currency.
+     * @return the amount's reciprocal value.
      */
     public MonetaryAmount calculateReciprocal(MonetaryAmount amount){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Calulculate the given percentage of an amount.
+     * Calulculate the given percentage of an {@link MonetaryAmount}.
      *
      * @param amt     the amount
-     * @param percent the percentage
-     * @return
+     * @param percent the percentage, with the same currency.
+     * @return the amount's percentage value.
      * @see org.javamoney.moneta.function.MonetaryFunctions
      */
     public MonetaryAmount calculatePercent(MonetaryAmount amt, double percent){
@@ -118,11 +120,11 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Calulculate the given permil.
+     * Calulculate the given permil of an {@link MonetaryAmount}.
      *
      * @param amt    the amount
-     * @param permil the percentage
-     * @return
+     * @param permil the percentage, with the same currency.
+     * @return the amount's permil value.
      * @see org.javamoney.moneta.function.MonetaryFunctions
      */
     public MonetaryAmount calculatePermil(MonetaryAmount amt, double permil){
@@ -130,10 +132,10 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Get the major part only.
+     * Get the major part only of the given {@link MonetaryAmount}.
      *
      * @param amt the amount
-     * @return
+     * @return the major part of it, with the same currency.
      * @see org.javamoney.moneta.function.MonetaryFunctions
      */
     public MonetaryAmount getMajorPart(MonetaryAmount amt){
@@ -141,12 +143,12 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Calculate a compund interest, defined as base * (1+interest)^n
+     * Calculate a compound interest, defined as {@code }base * (1+interest)^n}
      *
      * @param base the base amount
      * @param rate the interest rate
      * @param n    the periods
-     * @return
+     * @return the compound interest.
      */
     public MonetaryAmount getCompoundInterest(MonetaryAmount base, double rate, int n){
         throw new UnsupportedOperationException();
@@ -154,8 +156,9 @@ public class MoneyAlgorithmics{
 
 
     /**
-     * Multiply amount with the given factor. Hint: the factor may exceed the numeric capabilities of the
-     * amount implementation given.
+     * Multiply amount with the given factor (advanced). <p/>
+     * <b>Hint: </b>The factor may exceed the numeric capabilities of the
+     * amount implementation given!
      *
      * @param amount the amount
      * @param factor the factor
@@ -169,12 +172,14 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * subtract two amounts. Hint: the result may exceed the numeric capabilities of the
-     * amount implementation given.
+     * Subtract two amounts. <p/>
+     * <b>Hint: </b>The valuation may exceed the numeric capabilities of the
+     * amount implementation given!  You should handle this situation, e.g. by using a more appropriate amount
+     * implementation.
      *
-     * @param amount the amount
-     * @param amt2   the amoun to be
-     * @return
+     * @param amount the base amount
+     * @param amt2   the amount to be subtracted
+     * @return the subtraction result
      * @see javax.money.MonetaryAmount#getMonetaryContext()
      * @see javax.money.MonetaryContext
      * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
@@ -184,12 +189,14 @@ public class MoneyAlgorithmics{
     }
 
     /**
-     * Divide an amount. Hint: the result may exceed the numeric capabilities of the
-     * amount implementation given.
+     * Divide an amount.<p/>
+     * <b>Hint: </b>The valuation may exceed the numeric capabilities of the
+     * amount implementation given! You should handle this situation, e.g. by using a more appropriate amount
+     * implementation.
      *
      * @param amount the amount
-     * @param factor the factor
-     * @return
+     * @param factor the factor (divisor)
+     * @return the division result
      * @see javax.money.MonetaryAmount#getMonetaryContext()
      * @see javax.money.MonetaryContext
      * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
@@ -197,4 +204,29 @@ public class MoneyAlgorithmics{
     public MonetaryAmount divideAdvanced(MonetaryAmount amount, BigDecimal factor){
         throw new UnsupportedOperationException();
     }
+
+
+    /**
+     * Implement a {@link javax.money.MonetaryOperator} that simply duplicates the amount given.
+     * @return the duplicating operator.
+     */
+    public MonetaryOperator getDuplicateOperator(){
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Implement a {@link javax.money.MonetaryOperator} that calculates the total of all amounts operated on.
+     */
+    public MonetaryOperator getTotalOperator(){
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Implement a {@link javax.money.MonetaryQuery} that return {@code true} for each amount, that has an ISO
+     * currency (as available on {@link java.util.Currency}.
+     */
+    public MonetaryQuery<Boolean> getCountingQuery(){
+        throw new UnsupportedOperationException();
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, Werner Keil, Credit Suisse (Anatole Tresch). Licensed under the Apache
+ * Copyright (c) 2012, 2013, Credit Suisse (Anatole Tresch). Licensed under the Apache
  * License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software distributed under the License
@@ -10,21 +10,27 @@
 package org.javamoney.adopjsr;
 
 import javax.money.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Collection;
 import java.util.Locale;
 
 /**
- * This class has to be implemented and helps us giving feedback on the JSR's API. This part of the
- * project deals with basic aspects such as getting currencies and amounts.
+ * This class has to be implemented and helps us giving feedback on the JSR 354's API. This part of the
+ * project deals with basic aspects such as getting currencies and creating amounts of different types and with
+ * different
+ * capabilities.
+ * <p>
  * Created by Anatole on 07.03.14.
  */
 public class Basics{
 
     /**
-     * Get a CurrencyUnit using a currency code.
+     * Get a {@link javax.money.CurrencyUnit} using a currency code.
      *
      * @param currencyCode the currency code
      * @return the corresponding CurrencyUnit instance.
+     * @see javax.money.MonetaryCurrencies
      */
     public CurrencyUnit getProvidedCurrency(String currencyCode){
         // throw new UnsupportedOperationException();
@@ -32,17 +38,19 @@ public class Basics{
     }
 
     /**
-     * Get a CurrencyUnit using a Locale, modeling a country.
+     * Get a {@link javax.money.CurrencyUnit} using a Locale, modeling a country.
      *
      * @param locale The country locale.
      * @return the corresponding CurrencyUnit instance.
+     * @see javax.money.MonetaryCurrencies
+     * @see java.util.Locale
      */
     public CurrencyUnit getProvidedCurrency(Locale locale){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Create a custom CurrencyUnit.
+     * Create a custom {@link javax.money.CurrencyUnit}.
      *
      * @param currencyCode         the currency code
      * @param numericCode          the numeric code.
@@ -55,7 +63,7 @@ public class Basics{
     }
 
     /**
-     * Build and register a CurrencyUnit.
+     * Build and register a {@link javax.money.CurrencyUnit}.
      *
      * @param currencyCode         the currency code (non null).
      * @param numericCode          the numeric code.
@@ -63,64 +71,105 @@ public class Basics{
      * @return the CurrencyUnit. Additionally the unit should be registered,
      * so it accessible from {@link }MonetaryCurrencies}.
      * @see org.javamoney.moneta.BuildableCurrencyUnit
+     * @see javax.money.MonetaryCurrencies
      */
     public CurrencyUnit buildAndRegisterCustomCurrency(String currencyCode, int numericCode, int defaultFractionUnits){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Evaluate the current registered implementation types for amounts.
+     * Evaluate the current registered implementation {@link javax.money.MonetaryAmount} types for amounts.
      *
      * @return the current amount types.
+     * @see javax.money.MonetaryAmounts
      */
     public Collection<Class<? extends MonetaryAmount>> getMonetaryAmountTypes(){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Evaluate the current registered default implementation type for amounts.
+     * Evaluate the current registered default implementation {@link javax.money.MonetaryAmount} type for amounts.
      *
      * @return the current default amount type.
+     * @see javax.money.MonetaryAmounts
      */
     public Class<? extends MonetaryAmount> getDefaultMonetaryAmountType(){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Lookup the corresponding factory for creating such amounts.
+     * Lookup the a corresponding factory for creating {@link javax.money.MonetaryAmount} instances of a certain type.
      *
      * @param moneyType the monetary amount's implementation class.
      * @return the corresponding factory, not null.
+     * @see javax.money.MonetaryAmounts
      */
     public <T extends MonetaryAmount> MonetaryAmountFactory<T> getMoneyFactory(Class<T> moneyType){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Get an amount with the given amount and currency.
+     * Get an amount with the given amount and currency. THe advanced might try to create an amount that has a
+     * {@link javax.money.CurrencyUnit}, which is not registered in {@link javax.money.MonetaryCurrencies}.
      *
      * @param number       the amount
      * @param currencyCode the currency code
      * @return a corresponding amount instance.
+     * @see javax.money.MonetaryAmounts
+     * @see javax.money.MonetaryAmountFactory
      */
     public MonetaryAmount getMoney(Number number, String currencyCode){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Creates a MonetaryAmount that covers the capabilities as defined in the MonetaryContext.
+     * Converts the given amount to a new amount with the given BigDecimal value and currencyCode.
+     *
+     * @param amount       the amount
+     * @param bd           the BD number
+     * @param currencyCode the currency code
+     * @return a corresponding amount instance.
+     * @see javax.money.MonetaryAmounts
+     * @see javax.money.MonetaryAmountFactory
+     */
+    public MonetaryAmount convertAmount(MonetaryAmount amount, BigDecimal bd, String currencyCode){
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Change the numeric capabilities of the given amount to a new capabilities given.
+     *
+     * @param amount       the amount
+     * @param scale        the maximal scale
+     * @param precision    the target precision
+     * @param context the MathContext
+     * @return a corresponding amount instance.
+     * @see javax.money.MonetaryAmounts
+     * @see javax.money.MonetaryAmountFactory
+     * @see javax.money.MonetaryContext
+     */
+    public MonetaryAmount convertAmount(MonetaryAmount amount, int scale, int precision, MathContext context){
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Create a {@link javax.money.MonetaryAmount} that covers the capabilities as defined in the {@link javax.money
+     * .MonetaryContext}.
      *
      * @param number       the amount
      * @param currencyCode the currency code
      * @param context      the Monetary context
      * @return an according money instance
+     * @see javax.money.MonetaryAmounts
+     * @see javax.money.MonetaryAmountFactory
+     * @see javax.money.MonetaryContext
      */
     public MonetaryAmount getMoneyWithContext(Number number, String currencyCode, MonetaryContext context){
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Creates a MonetaryAmount that covers the following capabilities:
+     * Create a {@link javax.money.MonetaryAmount} that covers the following capabilities:
      * <ul>
      * <li>It must support a precision of 256.</li>
      * <li>It must support a scale of 128.</li>
@@ -131,6 +180,8 @@ public class Basics{
      * @param number       the amount
      * @param currencyCode the currency code
      * @return an according money instance
+     * @see javax.money.MonetaryAmounts
+     * @see javax.money.MonetaryAmountFactory
      * @see javax.money.MonetaryContext
      */
     public MonetaryAmount getMoneyWithSpecificCapabilities(Number number, String currencyCode){

@@ -24,6 +24,7 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test cases for the formatting API.
@@ -68,4 +69,14 @@ public class FormattingTest{
         m = Money.of( -2323233223232424.23,"CHF");
         assertEquals(fmt.format(m), toTest.format(m));
     }
+
+    @Test
+    public void testRegisterCustomFormat(){
+        String formatId = formatting.getRegisteredCustomFormat();
+        assertNotNull(formatId);
+        AmountFormatContext ctx = new AmountFormatContext.Builder(formatId).build();
+        MonetaryAmountFormat f = MonetaryFormats.getAmountFormat(ctx);
+        assertNotNull(f);
+    }
+
 }
