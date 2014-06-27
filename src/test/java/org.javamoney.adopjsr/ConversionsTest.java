@@ -17,11 +17,12 @@ import org.junit.Test;
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryCurrencies;
-import javax.money.convert.ConversionContext;
-import javax.money.convert.ExchangeRate;
-import javax.money.convert.MonetaryConversions;
+import javax.money.convert.*;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Anatole on 21.03.14.
@@ -73,10 +74,11 @@ public class ConversionsTest{
                     ExchangeRate expected = null;
                     try{
                         expected = MonetaryConversions.getExchangeRateProvider("IMF").getExchangeRate(u1, u2,
-                                                                                      new ConversionContext.Builder()
-                                                                                              .setTimestampMillis(
-                                                                                                      time)
-                                                                                              .build());
+                                                                                                      new ConversionContext.Builder()
+                                                                                                              .setTimestampMillis(
+                                                                                                                      time)
+                                                                                                              .build()
+                        );
                     }
                     catch(Exception e){
                         exception = true;
@@ -111,9 +113,7 @@ public class ConversionsTest{
                     MonetaryAmount expected = null;
                     try{
                         expected = m.with(MonetaryConversions.getConversion(u1, new ConversionContext.Builder()
-                                .setTimestampMillis(
-                                        time)
-                                .build()));
+                                .setTimestampMillis(time).build()));
                     }
                     catch(Exception e){
                         exception = true;
@@ -130,5 +130,81 @@ public class ConversionsTest{
                 }
             }
         }
+    }
+
+    @Test
+    public void testConvertAmountDefault() throws Exception{
+        CurrencyUnit[] units =
+                new CurrencyUnit[]{MonetaryCurrencies.getCurrency("CHF"), MonetaryCurrencies.getCurrency("EUR"),
+                        MonetaryCurrencies.getCurrency("USD"), MonetaryCurrencies.getCurrency("JPY"),
+                        MonetaryCurrencies.getCurrency("INR"),};
+        Money[] moneys = new Money[]{Money.of(10, "CHF"), Money.of(123.34, "USD"), Money.of(2300.30, "INR")};
+        long now = System.currentTimeMillis();
+        long[] times = new long[]{now, now - ONEYEAR, now - (2 * ONEYEAR), now - (3 * ONEYEAR)};
+        for(CurrencyUnit u1 : units){
+            for(Money m : moneys){
+                boolean exception = false;
+                MonetaryAmount expected = null;
+                try{
+                    expected = m.with(MonetaryConversions.getConversion(u1, new ConversionContext.Builder().build()));
+                }
+                catch(Exception e){
+                    exception = true;
+                }
+                MonetaryAmount res = conv.convertAmountDefault(u1, m);
+                try{
+                    assertEquals(expected, res);
+                }
+                catch(Exception e){
+                    if(!exception){
+                        throw e;
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testGetDefaultConversionContext(){
+        ConversionContext ctx = conv.getDefaultConversionContext(MonetaryCurrencies.getCurrency("CHF"),
+                                                                 MonetaryCurrencies.getCurrency("EUR"));
+        assertNotNull(ctx);
+        assertEquals("ECB", ctx.getProvider());
+        ctx = conv.getDefaultConversionContext(MonetaryCurrencies.getCurrency("CHF"),
+                                               MonetaryCurrencies.getCurrency("INR"));
+        assertNotNull(ctx);
+        assertEquals("IMF", ctx.getProvider());
+    }
+
+    @Test
+    public void testGetIMFProviderContext(){
+        ProviderContext ctx = conv.getIMFProviderContext();
+        assertNotNull(ctx);
+        assertEquals("IMF", ctx.getProvider());
+    }
+
+    @Test
+    public void testGetECBProviderContext(){
+        ProviderContext ctx = conv.getECBProviderContext();
+        assertNotNull(ctx);
+        assertEquals("ECB", ctx.getProvider());
+    }
+
+    @Test
+    public void testGetDefaultProviderContext(){
+        ProviderContext ctx = conv.getDefaultProviderContext();
+        assertNotNull(ctx);
+        assertEquals(MonetaryConversions.getExchangeRateProvider().getProviderContext(), ctx.getProvider());
+    }
+
+    @Test
+    public void testGetDefaultProviderChain(){
+        assertEquals(MonetaryConversions.getDefaultProviderChain(), conv.getDefaultProviderChain());
+    }
+
+    @Test
+    public void testCustomProvider(){
+        String provName = conv.getNewProviderName();
+        ExchangeRateProvider prov = MonetaryConversions.getExchangeRateProvider(provName);
     }
 }

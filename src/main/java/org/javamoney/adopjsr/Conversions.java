@@ -67,7 +67,7 @@ public class Conversions{
      * @see javax.money.convert.CurrencyConversion
      * @see javax.money.MonetaryOperator
      */
-    public MonetaryAmount convertAmount(CurrencyUnit tgt, MonetaryAmount amount){
+    public MonetaryAmount convertAmountDefault(CurrencyUnit tgt, MonetaryAmount amount){
         throw new UnsupportedOperationException();
     }
 

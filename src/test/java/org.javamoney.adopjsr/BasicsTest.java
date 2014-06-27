@@ -20,7 +20,9 @@ import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryContext;
 import javax.money.MonetaryCurrencies;
+import java.awt.im.spi.InputMethodContext;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Currency;
@@ -64,14 +66,15 @@ public class BasicsTest{
 
     @Test
     public void testBuildAndRegisterCustomCurrency() throws Exception{
-        CurrencyUnit cur = basics.buildCustomCurrency("ABC", 123, 4);
-        assertEquals("ABC", cur.getCurrencyCode());
-        assertEquals(123, cur.getNumericCode());
-        assertEquals(4, cur.getDefaultFractionDigits());
-        cur = basics.buildCustomCurrency("BarFoo15", 1234, 3);
-        assertEquals("BarFoo15", cur.getCurrencyCode());
-        assertEquals(1234, cur.getNumericCode());
-        assertEquals(3, cur.getDefaultFractionDigits());
+        CurrencyUnit cur = basics.buildAndRegisterCustomCurrency("GeeCOIN", 2014, 0);
+        assertEquals("GeeCOIN", cur.getCurrencyCode());
+        assertEquals(2014, cur.getNumericCode());
+        assertEquals(0, cur.getDefaultFractionDigits());
+        CurrencyUnit unit = MonetaryCurrencies.getCurrency("GeeCOIN");
+        assertNotNull("Currency not registered.", unit);
+        assertEquals("GeeCOIN", unit.getCurrencyCode());
+        assertEquals(2014, unit.getNumericCode());
+        assertEquals(0, unit.getDefaultFractionDigits());
         assertNotNull(MonetaryCurrencies.getCurrency("BarFoo15"));
     }
 
@@ -145,4 +148,26 @@ public class BasicsTest{
         assertTrue(ctx.getPrecision()>=256 || ctx.getPrecision()==0);
         assertEquals(ctx.getAttribute(RoundingMode.class), RoundingMode.FLOOR);
     }
+
+    @Test
+     public void testConvertAmount(){
+        MonetaryAmount converted = basics.convertAmount(Money.of(200, "USD"),
+                                                        new BigDecimal("23628732374387462.87638476"), "GBP");
+        assertNotNull(converted);
+        assertEquals(new BigDecimal("23628732374387462.87638476"), converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
+        assertEquals("GBP", converted.getCurrency().getCurrencyCode());
+    }
+
+    @Test
+    public void testConvertAmountAdvanced(){
+        MonetaryAmount converted = basics.convertAmount(Money.of(200.234, "USD"), 200, 100, MathContext.UNLIMITED);
+        assertNotNull(converted);
+        assertEquals(new BigDecimal("200.234"), converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
+        assertEquals("USD", converted.getCurrency().getCurrencyCode());
+        assertEquals(200, converted.getNumber().getPrecision());
+        assertEquals(200, converted.getMonetaryContext().getPrecision());
+        assertEquals(100, converted.getMonetaryContext().getMaxScale());
+        assertEquals(MathContext.UNLIMITED, converted.getMonetaryContext().getAttribute(MathContext.class));
+    }
+
 }

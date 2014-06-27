@@ -21,6 +21,7 @@ import org.javamoney.moneta.format.CurrencyStyle;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 import java.text.DecimalFormat;
+import java.util.Collection;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -77,6 +78,12 @@ public class FormattingTest{
         AmountFormatContext ctx = new AmountFormatContext.Builder(formatId).build();
         MonetaryAmountFormat f = MonetaryFormats.getAmountFormat(ctx);
         assertNotNull(f);
+    }
+
+    @Test
+    public void testAvailableLocales(){
+        Collection<Locale> locales = formatting.getAvailableLocales();
+        assertEquals(MonetaryFormats.getAvailableLocales(), locales);
     }
 
 }

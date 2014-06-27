@@ -11,13 +11,13 @@
 
 package org.javamoney.adopjsr;
 
+import org.javamoney.moneta.BuildableCurrencyUnit;
 import org.javamoney.moneta.FastMoney;
 import org.javamoney.moneta.Money;
+import org.javamoney.moneta.function.MonetaryFunctions;
 import org.junit.Test;
 
-import javax.money.MonetaryAmount;
-import javax.money.MonetaryContext;
-import javax.money.MonetaryCurrencies;
+import javax.money.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -53,18 +54,18 @@ public class MoneyAlgorithmicsTest{
 
     @Test
     public void testSubtract() throws Exception{
-        assertEquals(Money.of( 0,"CHF"), alg.multiply(Money.of( 10,"CHF"), 10));
-        assertEquals(Money.of( -10,"CHF"), alg.multiply(Money.of( 10,"CHF"), 120));
-        assertEquals(Money.of( -2.5,"CHF"), alg.multiply(Money.of( 10,"CHF"), 12.5));
-        assertEquals(Money.of( 0.06,"CHF"), alg.multiply(Money.of( 10.56,"CHF"), 10.5));
+        assertEquals(Money.of( 0,"CHF"), alg.subtract(Money.of(10, "CHF"), Money.of(10, "CHF")));
+        assertEquals(Money.of( -110,"CHF"), alg.subtract(Money.of(10, "CHF"), Money.of(120, "CHF")));
+        assertEquals(Money.of( -2.5,"CHF"), alg.subtract(Money.of(10, "CHF"), Money.of(12.5, "CHF")));
+        assertEquals(Money.of( 0.06,"CHF"), alg.subtract(Money.of(10.56, "CHF"), Money.of(10.5, "CHF")));
     }
 
     @Test
     public void testDivide() throws Exception{
-        assertEquals(Money.of( 1,"CHF"), alg.multiply(Money.of( 10,"CHF"), 10));
-        assertEquals(Money.of( 1,"CHF"), alg.multiply(Money.of( 10.345,"CHF"), 10.345));
-        assertEquals(Money.of( 10.345,"CHF"), alg.multiply(Money.of( 10.345,"CHF"), 1));
-        assertEquals(Money.of( 0.0837991089509923,"CHF"), alg.multiply(Money.of( 10.345,"CHF"), 123.45));
+        assertEquals(Money.of( 1,"CHF"), alg.divide(Money.of( 10,"CHF"), new BigDecimal(10)));
+        assertEquals(Money.of( 1,"CHF"), alg.divide(Money.of(10.345, "CHF"), new BigDecimal("10.345")));
+        assertEquals(Money.of( 10.345,"CHF"), alg.divide(Money.of(10.345, "CHF"), BigDecimal.ONE));
+        assertEquals(Money.of( 0.0837991089509923,"CHF"), alg.divide(Money.of(10.345, "CHF"), new BigDecimal("123.45")));
     }
 
     @Test
@@ -117,6 +118,12 @@ public class MoneyAlgorithmicsTest{
     }
 
     @Test
+    public void testGetMajorPart() throws Exception{
+        MonetaryAmount amt1 = alg.getMajorPart(FastMoney.of(100.1223, "EUR"));
+        assertEquals(FastMoney.of(100, "EUR"), FastMoney.of(100.1223, "EUR").with(MonetaryFunctions.majorPart()));
+    }
+
+    @Test
     public void testGetCompoundInterest() throws Exception{
         MonetaryAmount amt1 = alg.getCompoundInterest(FastMoney.of(100,"EUR"), 10.5, 1);
         assertTrue(Money.of(110.5,"EUR").isEqualTo(amt1));
@@ -150,5 +157,45 @@ public class MoneyAlgorithmicsTest{
         MonetaryAmount amt1 = alg.divideAdvanced(FastMoney.of(100,"EUR"), new BigDecimal("0.0000000000000000000001"));
         assertTrue(Money.of(100,"EUR", new MonetaryContext.Builder().setObject(MathContext.UNLIMITED).build())
                            .divide(new BigDecimal("0.0000000000000000000001")).isEqualTo(amt1));
+    }
+
+
+    /**
+     * Implement a {@link javax.money.MonetaryOperator} that simply duplicates the amount given.
+     * @return the duplicating operator.
+     */
+    @Test
+    public void testDuplicateOperator(){
+        MonetaryOperator op = alg.getDuplicateOperator();
+        assertEquals(Money.of( 20,"CHF"), Money.of( 10,"CHF").with(op));
+        assertEquals(Money.of( 20.86,"CHF"), Money.of( 10.23,"CHF").with(op));
+        assertEquals(Money.of( -4,"CHF"), Money.of( -2,"CHF").with(op));
+        assertEquals(Money.of( 0,"CHF"), Money.of( 0,"CHF").with(op));
+    }
+
+    /**
+     * Implement a {@link javax.money.MonetaryOperator} that calculates the total of all amounts operated on.
+     */
+    @Test
+    public void testTotalOperator(){
+        MonetaryOperator op = alg.getTotalOperator();
+        op.apply(Money.of( 2,"CHF"));
+        op.apply(FastMoney.of( 4.5,"CHF"));
+        op.apply(Money.of( 10,"CHF"));
+        op.apply(FastMoney.of(-1.5, "CHF"));
+        assertEquals(Money.of( 35.1234,"CHF"),op.apply(Money.of( 20.1234,"CHF")));
+    }
+
+    /**
+     * Implement a {@link javax.money.MonetaryQuery} that return {@code true} for each amount, that has an ISO
+     * currency (as available on {@link java.util.Currency}.
+     */
+    @Test
+    public void testCountingQuery(){
+        MonetaryQuery<Boolean> query = alg.getCountingQuery();
+        assertTrue( Money.of( 2,"CHF").query(query));
+        assertFalse(FastMoney.of(4.5, new BuildableCurrencyUnit.Builder("GEEC").build()).query(query));
+        assertTrue(Money.of(10, "INR").query(query));
+        assertFalse(FastMoney.of( -1.5, new BuildableCurrencyUnit.Builder("2xx2").build()).query(query));
     }
 }

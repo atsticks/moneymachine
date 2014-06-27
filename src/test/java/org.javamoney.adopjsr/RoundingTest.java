@@ -16,11 +16,14 @@ import org.javamoney.moneta.Money;
 import org.junit.Test;
 
 import javax.money.MonetaryContext;
+import javax.money.MonetaryOperator;
 import javax.money.MonetaryRoundings;
 import javax.money.RoundingContext;
 import java.math.RoundingMode;
+import java.util.Collection;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by Anatole on 21.03.14.
@@ -41,12 +44,6 @@ public class RoundingTest{
         }
     }
 
-    @Test
-    public void testRoundBasedOnCurrency() throws Exception{
-        for(Money m : moneys){
-            assertEquals(m.with(MonetaryRoundings.getRounding(m.getCurrency())), rnd.roundBasedOnCurrency(m));
-        }
-    }
 
     @Test
     public void testRoundForCash() throws Exception{
@@ -60,6 +57,34 @@ public class RoundingTest{
         RoundingContext ctx = new RoundingContext.Builder().setObject(RoundingMode.HALF_UP).setInt("maxScale", 3).build();
         for(Money m : moneys){
             assertEquals(m.with(MonetaryRoundings.getRounding(ctx)), rnd.roundMathematical(m));
+        }
+    }
+
+    @Test
+    public void testKnownRoundings() throws Exception{
+        Collection<String> roundings = rnd.getKnownRoundings();
+        assertNotNull(roundings);
+        Set<String> curSet =  MonetaryRoundings.getRoundingIds();
+        for(String roundingId:curSet){
+            assertTrue(roundings.contains(roundingId));
+        }
+        for(String roundingId:roundings){
+            assertTrue(curSet.contains(roundingId));
+        }
+    }
+
+    /**
+     * Test your own custom rounding. The test will check, if your rounding is available and perform a test
+     * rounding.
+     */
+    @Test
+    public void testCustomRoundingName(){
+        String rndId = rnd.getCustomRoundingName();
+        MonetaryOperator rounding = MonetaryRoundings.getRounding(rndId);
+        assertNotNull(rounding);
+        for(Money m : moneys){
+            assertNotNull(m.with(rounding));
+            assertEquals(m.getClass().getName(), m.with(rounding).getClass().getName());
         }
     }
 }
