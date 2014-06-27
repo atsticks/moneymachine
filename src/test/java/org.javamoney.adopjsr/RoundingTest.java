@@ -56,7 +56,7 @@ public class RoundingTest{
     public void testRoundMathematical() throws Exception{
         RoundingContext ctx = new RoundingContext.Builder().setObject(RoundingMode.HALF_UP).setInt("maxScale", 3).build();
         for(Money m : moneys){
-            assertEquals(m.with(MonetaryRoundings.getRounding(ctx)), rnd.roundMathematical(m));
+            assertEquals(rnd.roundMathematical(m), m.with(MonetaryRoundings.getRounding(ctx)));
         }
     }
 
