@@ -20,7 +20,6 @@ import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryContext;
 import javax.money.MonetaryCurrencies;
-import java.awt.im.spi.InputMethodContext;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -104,11 +103,11 @@ public class BasicsTest{
     public void testGetMoney() throws Exception{
         MonetaryAmount amt = basics.getMoney(10.50d, "CHF");
         assertNotNull(amt);
-        assertEquals("CHF", amt.getCurrency());
+        assertEquals("CHF", amt.getCurrency().getCurrencyCode());
         assertEquals(10.50d, amt.getNumber().doubleValue(), 0.0d);
         amt = basics.getMoney(Long.MAX_VALUE, "USD");
         assertNotNull(amt);
-        assertEquals("USD", amt.getCurrency());
+        assertEquals("USD", amt.getCurrency().getCurrencyCode());
         assertEquals(Long.MAX_VALUE, amt.getNumber().longValue());
     }
 
@@ -119,22 +118,22 @@ public class BasicsTest{
         MonetaryAmount amt = basics.getMoneyWithContext(new BigDecimal("10.50792323200000000000236823"), "CHF",
                                                         preciseCtx);
         assertNotNull(amt);
-        assertEquals("CHF", amt.getCurrency());
+        assertEquals("CHF", amt.getCurrency().getCurrencyCode());
         assertEquals(new BigDecimal("10.50792323200000000000236823"), amt.getNumber().numberValue(BigDecimal.class));
         amt = basics.getMoneyWithContext(6546546464L, "USD", fastCtx);
         assertNotNull(amt);
-        assertEquals("USD", amt.getCurrency());
+        assertEquals("USD", amt.getCurrency().getCurrencyCode());
         assertEquals(6546546464L, amt.getNumber().longValueExact());
     }
 
     @Test
     public void testGetMoneyWithSpecification() throws Exception{
-        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor","PRECISION").build();
-        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor","PERFORMANCE").build();
+//        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor","PRECISION").build();
+//        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor","PERFORMANCE").build();
         MonetaryAmount amt = basics.getMoneyWithSpecificCapabilities(new BigDecimal("10.50792323200000000000236823"),
                                                                      "CHF");
         assertNotNull(amt);
-        assertEquals("CHF", amt.getCurrency());
+        assertEquals("CHF", amt.getCurrency().getCurrencyCode());
         assertEquals(new BigDecimal("10.50792323200000000000236823"), amt.getNumber().numberValue(BigDecimal.class));
         MonetaryContext ctx = amt.getMonetaryContext();
         assertTrue(ctx.getMaxScale()>=128);
@@ -142,7 +141,7 @@ public class BasicsTest{
         assertEquals(ctx.getAttribute(RoundingMode.class), RoundingMode.FLOOR);
         amt = basics.getMoneyWithSpecificCapabilities(6546546464L, "USD");
         assertNotNull(amt);
-        assertEquals("USD", amt.getCurrency());
+        assertEquals("USD", amt.getCurrency().getCurrencyCode());
         assertEquals(6546546464L, amt.getNumber().longValueExact());
         assertTrue(ctx.getMaxScale()>=128);
         assertTrue(ctx.getPrecision()>=256 || ctx.getPrecision()==0);
