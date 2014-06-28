@@ -37,6 +37,9 @@ public class ConversionsTest{
                         MonetaryCurrencies.getCurrency("USD")};
         for(CurrencyUnit u1 : units){
             for(CurrencyUnit u2 : units){
+                if(u1.equals(u2)){
+                    continue;
+                }
                 boolean exception = false;
                 ExchangeRate expected = null;
                 try{
@@ -67,6 +70,9 @@ public class ConversionsTest{
                         MonetaryCurrencies.getCurrency("USD")};
         for(CurrencyUnit u1 : units){
             for(CurrencyUnit u2 : units){
+                if(u1.equals(u2)){
+                    continue;
+                }
                 for(long time : times){
                     boolean exception = false;
                     ExchangeRate expected = null;
