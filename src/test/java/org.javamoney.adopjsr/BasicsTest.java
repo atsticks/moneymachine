@@ -59,8 +59,8 @@ public class BasicsTest{
         assertEquals(10, cur.getDefaultFractionDigits());
         cur = basics.buildCustomCurrency("BarFoo15-t3", 1234, 3);
         assertEquals("BarFoo15-t3", cur.getCurrencyCode());
-        assertEquals(-1, cur.getNumericCode());
-        assertEquals(10, cur.getDefaultFractionDigits());
+        assertEquals(1234, cur.getNumericCode());
+        assertEquals(3, cur.getDefaultFractionDigits());
     }
 
     @Test
