@@ -14,6 +14,7 @@ import javax.money.MonetaryAmount;
 import javax.money.convert.ConversionContext;
 import javax.money.convert.ExchangeRate;
 import javax.money.convert.ProviderContext;
+import java.util.List;
 
 /**
  * API test class that allows to test out the API for currency conversion. Hint the available providers can be
@@ -144,7 +145,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public String[] getDefaultProviderChain(){
+    public List<String> getDefaultProviderChain(){
         throw new UnsupportedOperationException();
     }
 

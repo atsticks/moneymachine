@@ -47,7 +47,14 @@ public class BasicsTest{
     @Test
     public void testGetProvidedCurrency1() throws Exception{
         for(String country : Locale.getISOCountries()){
-            assertNotNull(basics.getProvidedCurrency(new Locale("", country)));
+            Locale locale = new Locale("", country);
+            try{
+                Currency.getInstance(locale);
+            }
+            catch(Exception e){
+                continue;
+            }
+            assertNotNull(basics.getProvidedCurrency(locale));
         }
     }
 
@@ -74,7 +81,6 @@ public class BasicsTest{
         assertEquals("GeeCOIN", unit.getCurrencyCode());
         assertEquals(2014, unit.getNumericCode());
         assertEquals(0, unit.getDefaultFractionDigits());
-        assertNotNull(MonetaryCurrencies.getCurrency("BarFoo15"));
     }
 
     @Test
@@ -113,10 +119,10 @@ public class BasicsTest{
 
     @Test
     public void testGetMoneyWithContext() throws Exception{
-        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor","PRECISION").build();
-        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor","PERFORMANCE").build();
-        MonetaryAmount amt = basics.getMoneyWithContext(new BigDecimal("10.50792323200000000000236823"), "CHF",
-                                                        preciseCtx);
+        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor", "PRECISION").build();
+        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor", "PERFORMANCE").build();
+        MonetaryAmount amt =
+                basics.getMoneyWithContext(new BigDecimal("10.50792323200000000000236823"), "CHF", preciseCtx);
         assertNotNull(amt);
         assertEquals("CHF", amt.getCurrency().getCurrencyCode());
         assertEquals(new BigDecimal("10.50792323200000000000236823"), amt.getNumber().numberValue(BigDecimal.class));
@@ -128,32 +134,31 @@ public class BasicsTest{
 
     @Test
     public void testGetMoneyWithSpecification() throws Exception{
-//        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor","PRECISION").build();
-//        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor","PERFORMANCE").build();
-        MonetaryAmount amt = basics.getMoneyWithSpecificCapabilities(new BigDecimal("10.50792323200000000000236823"),
-                                                                     "CHF");
+        MonetaryAmount amt =
+                basics.getMoneyWithSpecificCapabilities(new BigDecimal("10.50792323200000000000236823"), "CHF");
         assertNotNull(amt);
         assertEquals("CHF", amt.getCurrency().getCurrencyCode());
         assertEquals(new BigDecimal("10.50792323200000000000236823"), amt.getNumber().numberValue(BigDecimal.class));
         MonetaryContext ctx = amt.getMonetaryContext();
-        assertTrue(ctx.getMaxScale()>=128);
-        assertTrue(ctx.getPrecision()>=256 || ctx.getPrecision()==0);
+        assertTrue(ctx.getMaxScale() >= 128);
+        assertTrue(ctx.getPrecision() >= 256 || ctx.getPrecision() == 0);
         assertEquals(ctx.getAttribute(RoundingMode.class), RoundingMode.FLOOR);
         amt = basics.getMoneyWithSpecificCapabilities(6546546464L, "USD");
         assertNotNull(amt);
         assertEquals("USD", amt.getCurrency().getCurrencyCode());
         assertEquals(6546546464L, amt.getNumber().longValueExact());
-        assertTrue(ctx.getMaxScale()>=128);
-        assertTrue(ctx.getPrecision()>=256 || ctx.getPrecision()==0);
+        assertTrue(ctx.getMaxScale() >= 128);
+        assertTrue(ctx.getPrecision() >= 256 || ctx.getPrecision() == 0);
         assertEquals(ctx.getAttribute(RoundingMode.class), RoundingMode.FLOOR);
     }
 
     @Test
-     public void testConvertAmount(){
-        MonetaryAmount converted = basics.convertAmount(Money.of(200, "USD"),
-                                                        new BigDecimal("23628732374387462.87638476"), "GBP");
+    public void testConvertAmount(){
+        MonetaryAmount converted =
+                basics.convertAmount(Money.of(200, "USD"), new BigDecimal("23628732374387462.87638476"), "GBP");
         assertNotNull(converted);
-        assertEquals(new BigDecimal("23628732374387462.87638476"), converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
+        assertEquals(new BigDecimal("23628732374387462.87638476"),
+                     converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
         assertEquals("GBP", converted.getCurrency().getCurrencyCode());
     }
 
@@ -161,7 +166,8 @@ public class BasicsTest{
     public void testConvertAmountAdvanced(){
         MonetaryAmount converted = basics.convertAmount(Money.of(200.234, "USD"), 200, 100, MathContext.UNLIMITED);
         assertNotNull(converted);
-        assertEquals(new BigDecimal("200.234"), converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
+        assertEquals(new BigDecimal("200.234"),
+                     converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
         assertEquals("USD", converted.getCurrency().getCurrencyCode());
         assertEquals(200, converted.getNumber().getPrecision());
         assertEquals(200, converted.getMonetaryContext().getPrecision());

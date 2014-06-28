@@ -19,8 +19,6 @@ import javax.money.MonetaryAmount;
 import javax.money.MonetaryCurrencies;
 import javax.money.convert.*;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -139,8 +137,6 @@ public class ConversionsTest{
                         MonetaryCurrencies.getCurrency("USD"), MonetaryCurrencies.getCurrency("JPY"),
                         MonetaryCurrencies.getCurrency("INR"),};
         Money[] moneys = new Money[]{Money.of(10, "CHF"), Money.of(123.34, "USD"), Money.of(2300.30, "INR")};
-        long now = System.currentTimeMillis();
-        long[] times = new long[]{now, now - ONEYEAR, now - (2 * ONEYEAR), now - (3 * ONEYEAR)};
         for(CurrencyUnit u1 : units){
             for(Money m : moneys){
                 boolean exception = false;
@@ -194,7 +190,7 @@ public class ConversionsTest{
     public void testGetDefaultProviderContext(){
         ProviderContext ctx = conv.getDefaultProviderContext();
         assertNotNull(ctx);
-        assertEquals(MonetaryConversions.getExchangeRateProvider().getProviderContext(), ctx.getProvider());
+        assertEquals(MonetaryConversions.getExchangeRateProvider().getProviderContext().getProvider(), ctx.getProvider());
     }
 
     @Test
@@ -206,5 +202,6 @@ public class ConversionsTest{
     public void testCustomProvider(){
         String provName = conv.getNewProviderName();
         ExchangeRateProvider prov = MonetaryConversions.getExchangeRateProvider(provName);
+        assertNotNull(prov);
     }
 }

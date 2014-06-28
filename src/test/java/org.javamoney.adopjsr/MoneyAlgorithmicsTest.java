@@ -80,10 +80,7 @@ public class MoneyAlgorithmicsTest{
                 alg.sortAmounts(Money.of( 0,"CHF"), FastMoney.of( 1,"CHF"), Money.of( -200,"CHF"),
                                 FastMoney.of(210,"USD"));
         List<MonetaryAmount> sortedAmounts = new ArrayList<>();
-        sortedAmounts.add(Money.of( 0,"CHF"));
-        sortedAmounts.add(FastMoney.of( 1,"CHF"));
-        sortedAmounts.add(Money.of( -200,"CHF"));
-        sortedAmounts.add(FastMoney.of(210,"USD"));
+        sortedAmounts.addAll(amounts);
         Collections.sort(sortedAmounts);
     }
 
@@ -120,7 +117,7 @@ public class MoneyAlgorithmicsTest{
     @Test
     public void testGetMajorPart() throws Exception{
         MonetaryAmount amt1 = alg.getMajorPart(FastMoney.of(100.1223, "EUR"));
-        assertEquals(FastMoney.of(100, "EUR"), FastMoney.of(100.1223, "EUR").with(MonetaryFunctions.majorPart()));
+        assertEquals(amt1, FastMoney.of(100.1223, "EUR").with(MonetaryFunctions.majorPart()));
     }
 
     @Test
@@ -162,7 +159,6 @@ public class MoneyAlgorithmicsTest{
 
     /**
      * Implement a {@link javax.money.MonetaryOperator} that simply duplicates the amount given.
-     * @return the duplicating operator.
      */
     @Test
     public void testDuplicateOperator(){
