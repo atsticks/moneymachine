@@ -8,7 +8,6 @@
  * API ("Specification") Copyright (c) 2012-2013, Credit Suisse All rights
  * reserved.
  */
-
 package org.javamoney.adopjsr;
 
 import org.javamoney.moneta.Money;
@@ -16,10 +15,10 @@ import org.junit.Test;
 
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryOperator;
-import javax.money.format.AmountFormatContext;
+import javax.money.format.*;
+
 import org.javamoney.moneta.format.CurrencyStyle;
-import javax.money.format.MonetaryAmountFormat;
-import javax.money.format.MonetaryFormats;
+
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Locale;
@@ -38,8 +37,8 @@ public class FormattingTest{
     @Test
     public void testGetAmountFormat() throws Exception{
         for(Locale loc: DecimalFormat.getAvailableLocales()){
-            MonetaryAmountFormat fmt = formatting.getAmountFormat(AmountFormatContext.of(loc));
-            assertEquals(fmt.getAmountFormatContext(), AmountFormatContext.of(loc));
+            MonetaryAmountFormat fmt = formatting.getAmountFormat(loc);
+            assertEquals(fmt.getAmountFormatContext().getLocale(), loc);
         }
     }
 
@@ -61,9 +60,10 @@ public class FormattingTest{
             }
         };
         MonetaryAmountFormat fmt = MonetaryFormats.getAmountFormat(
-                new AmountFormatContext.Builder(Locale.ENGLISH).setObject(CurrencyStyle.SYMBOL).setAttribute("GroupingSizes", new int[]{3, 2})
-                        .setText("pattern", " ##0.00  ¤ Mio;[##0.00] ¤ Mio").setAttribute("displayConversion", outOp)
-                        .setAttribute("parseConversion", inOp).build());
+                AmountFormatQueryBuilder.create(Locale.ENGLISH).set(CurrencyStyle.SYMBOL).set("groupingSizes",
+                                                                                            new int[]{3, 2})
+                        .set("pattern", " ##0.00  ¤ Mio;[##0.00] ¤ Mio").set("displayConversion", outOp)
+                        .set("parseConversion", inOp).build());
         Money m = Money.of(2323233223232424.23,"CHF");
         MonetaryAmountFormat toTest = formatting.createCustomFormat();
         assertEquals(fmt.format(m), toTest.format(m));
@@ -75,7 +75,7 @@ public class FormattingTest{
     public void testRegisterCustomFormat(){
         String formatId = formatting.getRegisteredCustomFormat();
         assertNotNull(formatId);
-        AmountFormatContext ctx = new AmountFormatContext.Builder(formatId).build();
+        AmountFormatQuery ctx = AmountFormatQueryBuilder.create(formatId).build();
         MonetaryAmountFormat f = MonetaryFormats.getAmountFormat(ctx);
         assertNotNull(f);
     }

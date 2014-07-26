@@ -8,7 +8,6 @@
  * API ("Specification") Copyright (c) 2012-2013, Credit Suisse All rights
  * reserved.
  */
-
 package org.javamoney.adopjsr;
 
 import org.javamoney.moneta.Money;
@@ -77,11 +76,9 @@ public class ConversionsTest{
                     boolean exception = false;
                     ExchangeRate expected = null;
                     try{
-                        expected = MonetaryConversions.getExchangeRateProvider("IMF").getExchangeRate(u1, u2,
-                                                                                                      new ConversionContext.Builder()
-                                                                                                              .setTimestampMillis(
-                                                                                                                      time)
-                                                                                                              .build()
+                        expected = MonetaryConversions.getExchangeRateProvider("IMF").getExchangeRate(
+                                ConversionQueryBuilder.create().setTimestampMillis(time).setBaseCurrency(u1)
+                                        .setTermCurrency(u2).build()
                         );
                     }
                     catch(Exception e){
@@ -116,8 +113,8 @@ public class ConversionsTest{
                     boolean exception = false;
                     MonetaryAmount expected = null;
                     try{
-                        expected = m.with(MonetaryConversions.getConversion(u1, new ConversionContext.Builder()
-                                .setTimestampMillis(time).build()));
+                        expected = m.with(MonetaryConversions.getConversion(
+                                ConversionQueryBuilder.create().setTimestampMillis(time).setTermCurrency(u1).build()));
                     }
                     catch(Exception e){
                         exception = true;
@@ -148,7 +145,8 @@ public class ConversionsTest{
                 boolean exception = false;
                 MonetaryAmount expected = null;
                 try{
-                    expected = m.with(MonetaryConversions.getConversion(u1, new ConversionContext.Builder().build()));
+                    expected = m.with(MonetaryConversions.getConversion(
+                            ConversionQueryBuilder.create().setTermCurrency(u1).build()));
                 }
                 catch(Exception e){
                     exception = true;
@@ -196,7 +194,8 @@ public class ConversionsTest{
     public void testGetDefaultProviderContext(){
         ProviderContext ctx = conv.getDefaultProviderContext();
         assertNotNull(ctx);
-        assertEquals(MonetaryConversions.getExchangeRateProvider().getProviderContext().getProvider(), ctx.getProvider());
+        assertEquals(MonetaryConversions.getExchangeRateProvider().getProviderContext().getProvider(),
+                     ctx.getProvider());
     }
 
     @Test

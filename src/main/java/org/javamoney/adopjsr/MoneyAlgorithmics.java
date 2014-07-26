@@ -165,7 +165,7 @@ public class MoneyAlgorithmics{
      * @return the correct result
      * @see javax.money.MonetaryAmount#getMonetaryContext()
      * @see javax.money.MonetaryContext
-     * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
+     * @see javax.money.MonetaryAmounts#getAmountFactory(Class) (javax.money.AmountFactoryQuery)
      */
     public MonetaryAmount multiplyAdvanced(MonetaryAmount amount, BigDecimal factor){
         throw new UnsupportedOperationException();
@@ -182,7 +182,7 @@ public class MoneyAlgorithmics{
      * @return the subtraction result
      * @see javax.money.MonetaryAmount#getMonetaryContext()
      * @see javax.money.MonetaryContext
-     * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
+     * @see javax.money.MonetaryAmounts#getAmountFactory(Class) (javax.money.AmountFactoryQuery)
      */
     public MonetaryAmount subtractAdvanced(MonetaryAmount amount, MonetaryAmount amt2){
         throw new UnsupportedOperationException();
@@ -199,7 +199,7 @@ public class MoneyAlgorithmics{
      * @return the division result
      * @see javax.money.MonetaryAmount#getMonetaryContext()
      * @see javax.money.MonetaryContext
-     * @see javax.money.MonetaryAmounts#queryAmountType(javax.money.MonetaryContext)
+     * @see javax.money.MonetaryAmounts#getAmountFactory(Class) (javax.money.AmountFactoryQuery)
      */
     public MonetaryAmount divideAdvanced(MonetaryAmount amount, BigDecimal factor){
         throw new UnsupportedOperationException();

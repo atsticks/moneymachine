@@ -16,10 +16,7 @@ import org.javamoney.moneta.Money;
 import org.javamoney.moneta.RoundedMoney;
 import org.junit.Test;
 
-import javax.money.CurrencyUnit;
-import javax.money.MonetaryAmount;
-import javax.money.MonetaryContext;
-import javax.money.MonetaryCurrencies;
+import javax.money.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -119,8 +116,8 @@ public class BasicsTest{
 
     @Test
     public void testGetMoneyWithContext() throws Exception{
-        MonetaryContext preciseCtx = new MonetaryContext.Builder().setText("AmountFlavor", "PRECISION").build();
-        MonetaryContext fastCtx = new MonetaryContext.Builder().setText("AmountFlavor", "PERFORMANCE").build();
+        MonetaryContext preciseCtx = MonetaryContextBuilder.create().set("AmountFlavor", "PRECISION").build();
+        MonetaryContext fastCtx = MonetaryContextBuilder.create().set("AmountFlavor", "PERFORMANCE").build();
         MonetaryAmount amt =
                 basics.getMoneyWithContext(new BigDecimal("10.50792323200000000000236823"), "CHF", preciseCtx);
         assertNotNull(amt);
@@ -142,14 +139,14 @@ public class BasicsTest{
         MonetaryContext ctx = amt.getMonetaryContext();
         assertTrue(ctx.getMaxScale() >= 128);
         assertTrue(ctx.getPrecision() >= 256 || ctx.getPrecision() == 0);
-        assertEquals(ctx.getAttribute(RoundingMode.class), RoundingMode.FLOOR);
+        assertEquals(ctx.get(RoundingMode.class), RoundingMode.FLOOR);
         amt = basics.getMoneyWithSpecificCapabilities(6546546464L, "USD");
         assertNotNull(amt);
         assertEquals("USD", amt.getCurrency().getCurrencyCode());
         assertEquals(6546546464L, amt.getNumber().longValueExact());
         assertTrue(ctx.getMaxScale() >= 128);
         assertTrue(ctx.getPrecision() >= 256 || ctx.getPrecision() == 0);
-        assertEquals(ctx.getAttribute(RoundingMode.class), RoundingMode.FLOOR);
+        assertEquals(ctx.get(RoundingMode.class), RoundingMode.FLOOR);
     }
 
     @Test
@@ -172,7 +169,7 @@ public class BasicsTest{
         assertEquals(200, converted.getNumber().getPrecision());
         assertEquals(200, converted.getMonetaryContext().getPrecision());
         assertEquals(100, converted.getMonetaryContext().getMaxScale());
-        assertEquals(MathContext.UNLIMITED, converted.getMonetaryContext().getAttribute(MathContext.class));
+        assertEquals(MathContext.UNLIMITED, converted.getMonetaryContext().get(MathContext.class));
     }
 
 }
