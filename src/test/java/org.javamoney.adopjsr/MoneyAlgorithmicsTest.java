@@ -15,6 +15,7 @@ import org.javamoney.moneta.BuildableCurrencyUnit;
 import org.javamoney.moneta.FastMoney;
 import org.javamoney.moneta.Money;
 import org.javamoney.moneta.function.MonetaryFunctions;
+import org.javamoney.moneta.function.MonetaryUtil;
 import org.junit.Test;
 
 import javax.money.*;
@@ -32,7 +33,8 @@ import static org.junit.Assert.*;
 public class MoneyAlgorithmicsTest{
 
     private MoneyAlgorithmics alg = new MoneyAlgorithmics();
-    private static final CurrencyContext CURENCY_CONTEXT = CurrencyContextBuilder.create("MoneyAlgorithmicsTest").build();
+    private static final CurrencyContext CURENCY_CONTEXT =
+            CurrencyContextBuilder.create("MoneyAlgorithmicsTest").build();
 
     @Test
     public void testAddAll() throws Exception{
@@ -117,7 +119,7 @@ public class MoneyAlgorithmicsTest{
     @Test
     public void testGetMajorPart() throws Exception{
         MonetaryAmount amt1 = alg.getMajorPart(FastMoney.of(100.1223, "EUR"));
-        assertEquals(amt1, FastMoney.of(100.1223, "EUR").with(MonetaryFunctions.majorPart()));
+        assertEquals(amt1, FastMoney.of(100.1223, "EUR").with(MonetaryUtil.majorPart()));
     }
 
     @Test

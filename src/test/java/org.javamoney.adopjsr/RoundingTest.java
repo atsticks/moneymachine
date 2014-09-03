@@ -32,7 +32,8 @@ public class RoundingTest{
     private Rounding rnd = new Rounding();
     private Money[] moneys =
             new Money[]{org.javamoney.moneta.Money.of(200.12345678, "CHF"), Money.of(100.1234567, "JPY"),
-                    Money.of(100.1234567, new BuildableCurrencyUnit.Builder("API-TEST", CURRENCY_CONTEXT).setNumericCode(1234)
+                    Money.of(100.1234567,
+                             new BuildableCurrencyUnit.Builder("API-TEST", CURRENCY_CONTEXT).setNumericCode(1234)
                                      .setDefaultFractionDigits(5).build()
                     )};
 
@@ -47,7 +48,9 @@ public class RoundingTest{
     @Test
     public void testRoundForCash() throws Exception{
         for(Money m : moneys){
-            assertEquals(m.with(MonetaryRoundings.getRounding(RoundingQueryBuilder.create().setCurrencyUnit(m.getCurrency()).set("cashRounding", true).build())), rnd.roundForCash(m));
+            assertEquals(m.with(MonetaryRoundings.getRounding(
+                    RoundingQueryBuilder.create().setCurrency(m.getCurrency()).set("cashRounding", true).build())),
+                         rnd.roundForCash(m));
         }
     }
 
@@ -63,11 +66,11 @@ public class RoundingTest{
     public void testKnownRoundings() throws Exception{
         Collection<String> roundings = rnd.getKnownRoundings();
         assertNotNull(roundings);
-        Set<String> curSet =  MonetaryRoundings.getRoundingNames();
-        for(String roundingId:curSet){
+        Set<String> curSet = MonetaryRoundings.getRoundingNames();
+        for(String roundingId : curSet){
             assertTrue(roundings.contains(roundingId));
         }
-        for(String roundingId:roundings){
+        for(String roundingId : roundings){
             assertTrue(curSet.contains(roundingId));
         }
     }
