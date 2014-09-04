@@ -77,9 +77,8 @@ public class ConversionsTest{
                     ExchangeRate expected = null;
                     try{
                         expected = MonetaryConversions.getExchangeRateProvider("IMF").getExchangeRate(
-                                ConversionQueryBuilder.create().setTimestampMillis(time).setBaseCurrency(u1)
-                                        .setTermCurrency(u2).build()
-                        );
+                                ConversionQueryBuilder.of().setTimestampMillis(time).setBaseCurrency(u1)
+                                        .setTermCurrency(u2).build());
                     }
                     catch(Exception e){
                         exception = true;
@@ -114,7 +113,7 @@ public class ConversionsTest{
                     MonetaryAmount expected = null;
                     try{
                         expected = m.with(MonetaryConversions.getConversion(
-                                ConversionQueryBuilder.create().setTimestampMillis(time).setTermCurrency(u1).build()));
+                                ConversionQueryBuilder.of().setTimestampMillis(time).setTermCurrency(u1).build()));
                     }
                     catch(Exception e){
                         exception = true;
@@ -145,8 +144,8 @@ public class ConversionsTest{
                 boolean exception = false;
                 MonetaryAmount expected = null;
                 try{
-                    expected = m.with(MonetaryConversions.getConversion(
-                            ConversionQueryBuilder.create().setTermCurrency(u1).build()));
+                    expected = m.with(MonetaryConversions
+                                              .getConversion(ConversionQueryBuilder.of().setTermCurrency(u1).build()));
                 }
                 catch(Exception e){
                     exception = true;

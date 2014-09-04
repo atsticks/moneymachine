@@ -36,7 +36,7 @@ public class FormattingTest{
 
     @Test
     public void testGetAmountFormat() throws Exception{
-        for(Locale loc: DecimalFormat.getAvailableLocales()){
+        for(Locale loc : DecimalFormat.getAvailableLocales()){
             MonetaryAmountFormat fmt = formatting.getAmountFormat(loc);
             assertEquals(fmt.getAmountFormatContext().getLocale(), loc);
         }
@@ -44,7 +44,7 @@ public class FormattingTest{
 
     @Test
     public void testGetAmountFormat1() throws Exception{
-        for(Locale loc: DecimalFormat.getAvailableLocales()){
+        for(Locale loc : DecimalFormat.getAvailableLocales()){
             MonetaryAmountFormat fmt = formatting.getAmountFormat(loc);
             assertEquals(fmt, MonetaryFormats.getAmountFormat(loc));
         }
@@ -60,14 +60,13 @@ public class FormattingTest{
             }
         };
         MonetaryAmountFormat fmt = MonetaryFormats.getAmountFormat(
-                AmountFormatQueryBuilder.create(Locale.ENGLISH).set(CurrencyStyle.SYMBOL).set("groupingSizes",
-                                                                                            new int[]{3, 2})
-                        .set("pattern", " ##0.00  ¤ Mio;[##0.00] ¤ Mio").set("displayConversion", outOp)
-                        .set("parseConversion", inOp).build());
-        Money m = Money.of(2323233223232424.23,"CHF");
+                AmountFormatQueryBuilder.of(Locale.ENGLISH).set(CurrencyStyle.SYMBOL)
+                        .set("groupingSizes", new int[]{3, 2}).set("pattern", " ##0.00  ¤ Mio;[##0.00] ¤ Mio")
+                        .set("displayConversion", outOp).set("parseConversion", inOp).build());
+        Money m = Money.of(2323233223232424.23, "CHF");
         MonetaryAmountFormat toTest = formatting.createCustomFormat();
         assertEquals(fmt.format(m), toTest.format(m));
-        m = Money.of( -2323233223232424.23,"CHF");
+        m = Money.of(-2323233223232424.23, "CHF");
         assertEquals(fmt.format(m), toTest.format(m));
     }
 
@@ -75,7 +74,7 @@ public class FormattingTest{
     public void testRegisterCustomFormat(){
         String formatId = formatting.getRegisteredCustomFormat();
         assertNotNull(formatId);
-        AmountFormatQuery ctx = AmountFormatQueryBuilder.create(formatId).build();
+        AmountFormatQuery ctx = AmountFormatQueryBuilder.of(formatId).build();
         MonetaryAmountFormat f = MonetaryFormats.getAmountFormat(ctx);
         assertNotNull(f);
     }

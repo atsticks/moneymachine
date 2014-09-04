@@ -109,7 +109,7 @@ public class Basics{
     }
 
     /**
-     * Get an amount with the given amount and currency. THe advanced might try to create an amount that has a
+     * Get an amount with the given amount and currency. THe advanced might try to of an amount that has a
      * {@link javax.money.CurrencyUnit}, which is not registered in {@link javax.money.MonetaryCurrencies}.
      *
      * @param number       the amount
@@ -139,10 +139,10 @@ public class Basics{
     /**
      * Change the numeric capabilities of the given amount to a new capabilities given.
      *
-     * @param amount       the amount
-     * @param scale        the maximal scale
-     * @param precision    the target precision
-     * @param context the MathContext
+     * @param amount    the amount
+     * @param scale     the maximal scale
+     * @param precision the target precision
+     * @param context   the MathContext
      * @return a corresponding amount instance.
      * @see javax.money.MonetaryAmounts
      * @see javax.money.MonetaryAmountFactory
@@ -175,7 +175,7 @@ public class Basics{
      * <li>It must support a scale of 128.</li>
      * <li>It must use {@link java.math.RoundingMode#FLOOR}</li>
      * </ul>
-     * Within this test you should query a corresponding implementation type and then create the corresponding amount.
+     * Within this test you should query a corresponding implementation type and then of the corresponding amount.
      *
      * @param number       the amount
      * @param currencyCode the currency code

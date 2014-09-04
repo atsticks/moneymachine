@@ -116,8 +116,8 @@ public class BasicsTest{
 
     @Test
     public void testGetMoneyWithContext() throws Exception{
-        MonetaryContext preciseCtx = MonetaryContextBuilder.create().set("AmountFlavor", "PRECISION").build();
-        MonetaryContext fastCtx = MonetaryContextBuilder.create().set("AmountFlavor", "PERFORMANCE").build();
+        MonetaryContext preciseCtx = MonetaryContextBuilder.of().set("AmountFlavor", "PRECISION").build();
+        MonetaryContext fastCtx = MonetaryContextBuilder.of().set("AmountFlavor", "PERFORMANCE").build();
         MonetaryAmount amt =
                 basics.getMoneyWithContext(new BigDecimal("10.50792323200000000000236823"), "CHF", preciseCtx);
         assertNotNull(amt);

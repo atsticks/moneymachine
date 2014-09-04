@@ -11,7 +11,7 @@
 
 package org.javamoney.adopjsr;
 
-import org.javamoney.moneta.BuildableCurrencyUnit;
+import org.javamoney.moneta.CurrencyUnitBuilder;
 import org.javamoney.moneta.Money;
 import org.junit.Test;
 
@@ -27,13 +27,12 @@ import static org.junit.Assert.*;
  */
 public class RoundingTest{
 
-    private static final CurrencyContext CURRENCY_CONTEXT = CurrencyContextBuilder.create("RoundingTest").build();
+    private static final CurrencyContext CURRENCY_CONTEXT = CurrencyContextBuilder.of("RoundingTest").build();
 
     private Rounding rnd = new Rounding();
     private Money[] moneys =
             new Money[]{org.javamoney.moneta.Money.of(200.12345678, "CHF"), Money.of(100.1234567, "JPY"),
-                    Money.of(100.1234567,
-                             new BuildableCurrencyUnit.Builder("API-TEST", CURRENCY_CONTEXT).setNumericCode(1234)
+                    Money.of(100.1234567, CurrencyUnitBuilder.of("API-TEST", CURRENCY_CONTEXT).setNumericCode(1234)
                                      .setDefaultFractionDigits(5).build()
                     )};
 
@@ -49,14 +48,15 @@ public class RoundingTest{
     public void testRoundForCash() throws Exception{
         for(Money m : moneys){
             assertEquals(m.with(MonetaryRoundings.getRounding(
-                    RoundingQueryBuilder.create().setCurrency(m.getCurrency()).set("cashRounding", true).build())),
+                                 RoundingQueryBuilder.of().setCurrency(m.getCurrency()).set("cashRounding", true)
+                                         .build())),
                          rnd.roundForCash(m));
         }
     }
 
     @Test
     public void testRoundMathematical() throws Exception{
-        RoundingQuery ctx = RoundingQueryBuilder.create().set(RoundingMode.HALF_UP).set("maxScale", 3).build();
+        RoundingQuery ctx = RoundingQueryBuilder.of().set(RoundingMode.HALF_UP).set("maxScale", 3).build();
         for(Money m : moneys){
             assertEquals(rnd.roundMathematical(m), m.with(MonetaryRoundings.getRounding(ctx)));
         }
