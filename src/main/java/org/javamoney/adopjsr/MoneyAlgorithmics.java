@@ -20,7 +20,7 @@ import java.util.List;
  * Class to perform algorithmic calculations and some of the provided external functions on amounts.
  * Created by Anatole on 07.03.14.
  */
-public class MoneyAlgorithmics{
+public class MoneyAlgorithmics {
 
     /**
      * Add up all {@link MonetaryAmount} instances.
@@ -28,7 +28,7 @@ public class MoneyAlgorithmics{
      * @param amounts the amounts (only in one single currency).
      * @return the sum of all amounts
      */
-    public MonetaryAmount addAll(MonetaryAmount... amounts){
+    public MonetaryAmount addAll(MonetaryAmount... amounts) {
         throw new UnsupportedOperationException();
     }
 
@@ -39,7 +39,7 @@ public class MoneyAlgorithmics{
      * @param factor the the factor
      * @return the multiplied amount
      */
-    public MonetaryAmount multiply(MonetaryAmount amount, Number factor){
+    public MonetaryAmount multiply(MonetaryAmount amount, Number factor) {
         throw new UnsupportedOperationException();
     }
 
@@ -50,7 +50,7 @@ public class MoneyAlgorithmics{
      * @param amt2   the amoun to be
      * @return
      */
-    public MonetaryAmount subtract(MonetaryAmount amount, MonetaryAmount amt2){
+    public MonetaryAmount subtract(MonetaryAmount amount, MonetaryAmount amt2) {
         throw new UnsupportedOperationException();
     }
 
@@ -61,7 +61,7 @@ public class MoneyAlgorithmics{
      * @param factor the factor
      * @return
      */
-    public MonetaryAmount divide(MonetaryAmount amount, BigDecimal factor){
+    public MonetaryAmount divide(MonetaryAmount amount, BigDecimal factor) {
         throw new UnsupportedOperationException();
     }
 
@@ -72,7 +72,7 @@ public class MoneyAlgorithmics{
      * @param scale  the scale factor
      * @return
      */
-    public MonetaryAmount scaleByTen(MonetaryAmount amount, int scale){
+    public MonetaryAmount scaleByTen(MonetaryAmount amount, int scale) {
         throw new UnsupportedOperationException();
     }
 
@@ -82,7 +82,7 @@ public class MoneyAlgorithmics{
      * @param amounts the amounts
      * @return
      */
-    public List<MonetaryAmount> sortAmounts(MonetaryAmount... amounts){
+    public List<MonetaryAmount> sortAmounts(MonetaryAmount... amounts) {
         throw new UnsupportedOperationException();
     }
 
@@ -93,7 +93,7 @@ public class MoneyAlgorithmics{
      * @param amounts        the amounts to filter and add
      * @return the amount's total, in the given target currency.
      */
-    public MonetaryAmount querySumOf(CurrencyUnit targetCurrency, MonetaryAmount... amounts){
+    public MonetaryAmount querySumOf(CurrencyUnit targetCurrency, MonetaryAmount... amounts) {
         throw new UnsupportedOperationException();
     }
 
@@ -103,7 +103,7 @@ public class MoneyAlgorithmics{
      * @param amount the amount, with the same currency.
      * @return the amount's reciprocal value.
      */
-    public MonetaryAmount calculateReciprocal(MonetaryAmount amount){
+    public MonetaryAmount calculateReciprocal(MonetaryAmount amount) {
         throw new UnsupportedOperationException();
     }
 
@@ -115,7 +115,7 @@ public class MoneyAlgorithmics{
      * @return the amount's percentage value.
      * @see org.javamoney.moneta.function.MonetaryFunctions
      */
-    public MonetaryAmount calculatePercent(MonetaryAmount amt, double percent){
+    public MonetaryAmount calculatePercent(MonetaryAmount amt, double percent) {
         throw new UnsupportedOperationException();
     }
 
@@ -127,7 +127,7 @@ public class MoneyAlgorithmics{
      * @return the amount's permil value.
      * @see org.javamoney.moneta.function.MonetaryFunctions
      */
-    public MonetaryAmount calculatePermil(MonetaryAmount amt, double permil){
+    public MonetaryAmount calculatePermil(MonetaryAmount amt, double permil) {
         throw new UnsupportedOperationException();
     }
 
@@ -138,7 +138,7 @@ public class MoneyAlgorithmics{
      * @return the major part of it, with the same currency.
      * @see org.javamoney.moneta.function.MonetaryFunctions
      */
-    public MonetaryAmount getMajorPart(MonetaryAmount amt){
+    public MonetaryAmount getMajorPart(MonetaryAmount amt) {
         throw new UnsupportedOperationException();
     }
 
@@ -150,7 +150,7 @@ public class MoneyAlgorithmics{
      * @param n    the periods
      * @return the compound interest.
      */
-    public MonetaryAmount getCompoundInterest(MonetaryAmount base, double rate, int n){
+    public MonetaryAmount getCompoundInterest(MonetaryAmount base, double rate, int n) {
         throw new UnsupportedOperationException();
     }
 
@@ -163,11 +163,11 @@ public class MoneyAlgorithmics{
      * @param amount the amount
      * @param factor the factor
      * @return the correct result
-     * @see javax.money.MonetaryAmount#getMonetaryContext()
+     * @see javax.money.MonetaryAmount#getContext()
      * @see javax.money.MonetaryContext
      * @see javax.money.MonetaryAmounts#getAmountFactory(Class) (javax.money.AmountFactoryQuery)
      */
-    public MonetaryAmount multiplyAdvanced(MonetaryAmount amount, BigDecimal factor){
+    public MonetaryAmount multiplyAdvanced(MonetaryAmount amount, BigDecimal factor) {
         throw new UnsupportedOperationException();
     }
 
@@ -180,11 +180,11 @@ public class MoneyAlgorithmics{
      * @param amount the base amount
      * @param amt2   the amount to be subtracted
      * @return the subtraction result
-     * @see javax.money.MonetaryAmount#getMonetaryContext()
+     * @see javax.money.MonetaryAmount#getContext()
      * @see javax.money.MonetaryContext
      * @see javax.money.MonetaryAmounts#getAmountFactory(Class) (javax.money.AmountFactoryQuery)
      */
-    public MonetaryAmount subtractAdvanced(MonetaryAmount amount, MonetaryAmount amt2){
+    public MonetaryAmount subtractAdvanced(MonetaryAmount amount, MonetaryAmount amt2) {
         throw new UnsupportedOperationException();
     }
 
@@ -197,27 +197,28 @@ public class MoneyAlgorithmics{
      * @param amount the amount
      * @param factor the factor (divisor)
      * @return the division result
-     * @see javax.money.MonetaryAmount#getMonetaryContext()
+     * @see javax.money.MonetaryAmount#getContext()
      * @see javax.money.MonetaryContext
      * @see javax.money.MonetaryAmounts#getAmountFactory(Class) (javax.money.AmountFactoryQuery)
      */
-    public MonetaryAmount divideAdvanced(MonetaryAmount amount, BigDecimal factor){
+    public MonetaryAmount divideAdvanced(MonetaryAmount amount, BigDecimal factor) {
         throw new UnsupportedOperationException();
     }
 
 
     /**
      * Implement a {@link javax.money.MonetaryOperator} that simply duplicates the amount given.
+     *
      * @return the duplicating operator.
      */
-    public MonetaryOperator getDuplicateOperator(){
+    public MonetaryOperator getDuplicateOperator() {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Implement a {@link javax.money.MonetaryOperator} that calculates the total of all amounts operated on.
      */
-    public MonetaryOperator getTotalOperator(){
+    public MonetaryOperator getTotalOperator() {
         throw new UnsupportedOperationException();
     }
 
@@ -225,7 +226,7 @@ public class MoneyAlgorithmics{
      * Implement a {@link javax.money.MonetaryQuery} that return {@code true} for each amount, that has an ISO
      * currency (as available on {@link java.util.Currency}.
      */
-    public MonetaryQuery<Boolean> getCountingQuery(){
+    public MonetaryQuery<Boolean> getCountingQuery() {
         throw new UnsupportedOperationException();
     }
 

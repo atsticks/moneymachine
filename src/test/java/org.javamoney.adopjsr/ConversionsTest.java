@@ -18,41 +18,42 @@ import javax.money.MonetaryAmount;
 import javax.money.MonetaryCurrencies;
 import javax.money.convert.*;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Anatole on 21.03.14.
  */
-public class ConversionsTest{
+public class ConversionsTest {
 
     private Conversions conv = new Conversions();
     private static final long ONEYEAR = 3600000L * 24 * 365;
 
     @Test
-    public void testGetExchangeRateFromIMF() throws Exception{
+    public void testGetExchangeRateFromIMF() throws Exception {
         CurrencyUnit[] units =
                 new CurrencyUnit[]{MonetaryCurrencies.getCurrency("CHF"), MonetaryCurrencies.getCurrency("EUR"),
                         MonetaryCurrencies.getCurrency("USD")};
-        for(CurrencyUnit u1 : units){
-            for(CurrencyUnit u2 : units){
-                if(u1.equals(u2)){
+        for (CurrencyUnit u1 : units) {
+            for (CurrencyUnit u2 : units) {
+                if (u1.equals(u2)) {
                     continue;
                 }
                 boolean exception = false;
                 ExchangeRate expected = null;
-                try{
+                try {
                     expected = MonetaryConversions.getExchangeRateProvider("IMF").getExchangeRate(u1, u2);
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     exception = true;
                 }
                 ExchangeRate r = conv.getExchangeRateFromIMF(u1, u2);
-                try{
+                try {
                     assertEquals(expected, r);
-                }
-                catch(Exception e){
-                    if(!exception){
+                } catch (Exception e) {
+                    if (!exception) {
                         throw e;
                     }
                 }
@@ -61,34 +62,33 @@ public class ConversionsTest{
     }
 
     @Test
-    public void testGetExchangeRatewithTime() throws Exception{
+    public void testGetExchangeRatewithTime() throws Exception {
         long now = System.currentTimeMillis();
-        long[] times = new long[]{now, now - ONEYEAR, now - (2 * ONEYEAR), now - (3 * ONEYEAR)};
+        LocalDate[] times = new LocalDate[]{LocalDate.now(), LocalDate.now().minus(1, ChronoUnit.YEARS),
+                LocalDate.now().minus(2, ChronoUnit.YEARS), LocalDate.now().minus(3, ChronoUnit.YEARS)};
         CurrencyUnit[] units =
                 new CurrencyUnit[]{MonetaryCurrencies.getCurrency("CHF"), MonetaryCurrencies.getCurrency("EUR"),
                         MonetaryCurrencies.getCurrency("USD")};
-        for(CurrencyUnit u1 : units){
-            for(CurrencyUnit u2 : units){
-                if(u1.equals(u2)){
+        for (CurrencyUnit u1 : units) {
+            for (CurrencyUnit u2 : units) {
+                if (u1.equals(u2)) {
                     continue;
                 }
-                for(long time : times){
+                for (LocalDate time : times) {
                     boolean exception = false;
                     ExchangeRate expected = null;
-                    try{
+                    try {
                         expected = MonetaryConversions.getExchangeRateProvider("IMF").getExchangeRate(
-                                ConversionQueryBuilder.of().setTimestampMillis(time).setBaseCurrency(u1)
+                                ConversionQueryBuilder.of().set(time).setBaseCurrency(u1)
                                         .setTermCurrency(u2).build());
-                    }
-                    catch(Exception e){
+                    } catch (Exception e) {
                         exception = true;
                     }
                     ExchangeRate r = conv.getExchangeRateWithTime(u1, u2, time);
-                    try{
+                    try {
                         assertEquals(expected, r);
-                    }
-                    catch(Exception e){
-                        if(!exception){
+                    } catch (Exception e) {
+                        if (!exception) {
                             throw e;
                         }
                     }
@@ -98,32 +98,31 @@ public class ConversionsTest{
     }
 
     @Test
-    public void testConvertAmount() throws Exception{
+    public void testConvertAmount() throws Exception {
         CurrencyUnit[] units =
                 new CurrencyUnit[]{MonetaryCurrencies.getCurrency("CHF"), MonetaryCurrencies.getCurrency("EUR"),
                         MonetaryCurrencies.getCurrency("USD"), MonetaryCurrencies.getCurrency("JPY"),
                         MonetaryCurrencies.getCurrency("INR"),};
         Money[] moneys = new Money[]{Money.of(10, "CHF"), Money.of(123.34, "USD"), Money.of(2300.30, "INR")};
         long now = System.currentTimeMillis();
-        long[] times = new long[]{now, now - ONEYEAR, now - (2 * ONEYEAR), now - (3 * ONEYEAR)};
-        for(CurrencyUnit u1 : units){
-            for(Money m : moneys){
-                for(long time : times){
+        LocalDate[] times = new LocalDate[]{LocalDate.now(), LocalDate.now().minus(1, ChronoUnit.YEARS),
+                LocalDate.now().minus(2, ChronoUnit.YEARS), LocalDate.now().minus(3, ChronoUnit.YEARS)};
+        for (CurrencyUnit u1 : units) {
+            for (Money m : moneys) {
+                for (LocalDate time : times) {
                     boolean exception = false;
                     MonetaryAmount expected = null;
-                    try{
+                    try {
                         expected = m.with(MonetaryConversions.getConversion(
-                                ConversionQueryBuilder.of().setTimestampMillis(time).setTermCurrency(u1).build()));
-                    }
-                    catch(Exception e){
+                                ConversionQueryBuilder.of().set(time).setTermCurrency(u1).build()));
+                    } catch (Exception e) {
                         exception = true;
                     }
                     MonetaryAmount res = conv.convertAmount(u1, m, time);
-                    try{
+                    try {
                         assertEquals(expected, res);
-                    }
-                    catch(Exception e){
-                        if(!exception){
+                    } catch (Exception e) {
+                        if (!exception) {
                             throw e;
                         }
                     }
@@ -133,29 +132,27 @@ public class ConversionsTest{
     }
 
     @Test
-    public void testConvertAmountDefault() throws Exception{
+    public void testConvertAmountDefault() throws Exception {
         CurrencyUnit[] units =
                 new CurrencyUnit[]{MonetaryCurrencies.getCurrency("CHF"), MonetaryCurrencies.getCurrency("EUR"),
                         MonetaryCurrencies.getCurrency("USD"), MonetaryCurrencies.getCurrency("JPY"),
                         MonetaryCurrencies.getCurrency("INR"),};
         Money[] moneys = new Money[]{Money.of(10, "CHF"), Money.of(123.34, "USD"), Money.of(2300.30, "INR")};
-        for(CurrencyUnit u1 : units){
-            for(Money m : moneys){
+        for (CurrencyUnit u1 : units) {
+            for (Money m : moneys) {
                 boolean exception = false;
                 MonetaryAmount expected = null;
-                try{
+                try {
                     expected = m.with(MonetaryConversions
-                                              .getConversion(ConversionQueryBuilder.of().setTermCurrency(u1).build()));
-                }
-                catch(Exception e){
+                            .getConversion(ConversionQueryBuilder.of().setTermCurrency(u1).build()));
+                } catch (Exception e) {
                     exception = true;
                 }
                 MonetaryAmount res = conv.convertAmountDefault(u1, m);
-                try{
+                try {
                     assertEquals(expected, res);
-                }
-                catch(Exception e){
-                    if(!exception){
+                } catch (Exception e) {
+                    if (!exception) {
                         throw e;
                     }
                 }
@@ -164,46 +161,46 @@ public class ConversionsTest{
     }
 
     @Test
-    public void testGetDefaultConversionContext(){
+    public void testGetDefaultConversionContext() {
         ConversionContext ctx = conv.getDefaultConversionContext(MonetaryCurrencies.getCurrency("CHF"),
-                                                                 MonetaryCurrencies.getCurrency("EUR"));
+                MonetaryCurrencies.getCurrency("EUR"));
         assertNotNull(ctx);
-        assertEquals("ECB", ctx.getProvider());
+        assertEquals("ECB", ctx.getProviderName());
         ctx = conv.getDefaultConversionContext(MonetaryCurrencies.getCurrency("CHF"),
-                                               MonetaryCurrencies.getCurrency("INR"));
+                MonetaryCurrencies.getCurrency("INR"));
         assertNotNull(ctx);
-        assertEquals("IMF", ctx.getProvider());
+        assertEquals("IMF", ctx.getProviderName());
     }
 
     @Test
-    public void testGetIMFProviderContext(){
+    public void testGetIMFProviderContext() {
         ProviderContext ctx = conv.getIMFProviderContext();
         assertNotNull(ctx);
-        assertEquals("IMF", ctx.getProvider());
+        assertEquals("IMF", ctx.getProviderName());
     }
 
     @Test
-    public void testGetECBProviderContext(){
+    public void testGetECBProviderContext() {
         ProviderContext ctx = conv.getECBProviderContext();
         assertNotNull(ctx);
-        assertEquals("ECB", ctx.getProvider());
+        assertEquals("ECB", ctx.getProviderName());
     }
 
     @Test
-    public void testGetDefaultProviderContext(){
+    public void testGetDefaultProviderContext() {
         ProviderContext ctx = conv.getDefaultProviderContext();
         assertNotNull(ctx);
-        assertEquals(MonetaryConversions.getExchangeRateProvider().getProviderContext().getProvider(),
-                     ctx.getProvider());
+        assertEquals(MonetaryConversions.getExchangeRateProvider().getContext().getProviderName(),
+                ctx.getProviderName());
     }
 
     @Test
-    public void testGetDefaultProviderChain(){
+    public void testGetDefaultProviderChain() {
         assertEquals(MonetaryConversions.getDefaultProviderChain(), conv.getDefaultProviderChain());
     }
 
     @Test
-    public void testCustomProvider(){
+    public void testCustomProvider() {
         String provName = conv.getNewProviderName();
         ExchangeRateProvider prov = MonetaryConversions.getExchangeRateProvider(provName);
         assertNotNull(prov);

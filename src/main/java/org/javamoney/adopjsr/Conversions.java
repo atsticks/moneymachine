@@ -14,6 +14,7 @@ import javax.money.MonetaryAmount;
 import javax.money.convert.ConversionContext;
 import javax.money.convert.ExchangeRate;
 import javax.money.convert.ProviderContext;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ import java.util.List;
  *
  * @see javax.money.convert.MonetaryConversions
  */
-public class Conversions{
+public class Conversions {
 
     /**
      * Get the corresponding exchange rate provided by the International Monetary Fonds (IMF).
@@ -40,7 +41,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public ExchangeRate getExchangeRateFromIMF(CurrencyUnit src, CurrencyUnit tgt){
+    public ExchangeRate getExchangeRateFromIMF(CurrencyUnit src, CurrencyUnit tgt) {
         throw new UnsupportedOperationException();
     }
 
@@ -54,7 +55,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public ExchangeRate getExchangeRateWithTime(CurrencyUnit src, CurrencyUnit tgt, long timestamp){
+    public ExchangeRate getExchangeRateWithTime(CurrencyUnit src, CurrencyUnit tgt, LocalDate timestamp) {
         throw new UnsupportedOperationException();
     }
 
@@ -68,7 +69,7 @@ public class Conversions{
      * @see javax.money.convert.CurrencyConversion
      * @see javax.money.MonetaryOperator
      */
-    public MonetaryAmount convertAmountDefault(CurrencyUnit tgt, MonetaryAmount amount){
+    public MonetaryAmount convertAmountDefault(CurrencyUnit tgt, MonetaryAmount amount) {
         throw new UnsupportedOperationException();
     }
 
@@ -82,7 +83,7 @@ public class Conversions{
      * @see javax.money.convert.CurrencyConversion
      * @see javax.money.MonetaryOperator
      */
-    public ConversionContext getDefaultConversionContext(CurrencyUnit src, CurrencyUnit tgt){
+    public ConversionContext getDefaultConversionContext(CurrencyUnit src, CurrencyUnit tgt) {
         throw new UnsupportedOperationException();
     }
 
@@ -93,7 +94,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public ProviderContext getIMFProviderContext(){
+    public ProviderContext getIMFProviderContext() {
         throw new UnsupportedOperationException();
     }
 
@@ -104,7 +105,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public ProviderContext getECBProviderContext(){
+    public ProviderContext getECBProviderContext() {
         throw new UnsupportedOperationException();
     }
 
@@ -115,7 +116,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public ProviderContext getDefaultProviderContext(){
+    public ProviderContext getDefaultProviderContext() {
         throw new UnsupportedOperationException();
     }
 
@@ -130,7 +131,7 @@ public class Conversions{
      * @see javax.money.convert.CurrencyConversion
      * @see javax.money.MonetaryOperator
      */
-    public MonetaryAmount convertAmount(CurrencyUnit tgt, MonetaryAmount amount, long timestamp){
+    public MonetaryAmount convertAmount(CurrencyUnit tgt, MonetaryAmount amount, LocalDate timestamp) {
         throw new UnsupportedOperationException();
     }
 
@@ -145,7 +146,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public List<String> getDefaultProviderChain(){
+    public List<String> getDefaultProviderChain() {
         throw new UnsupportedOperationException();
     }
 
@@ -158,7 +159,7 @@ public class Conversions{
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.ExchangeRateProvider
      */
-    public String getNewProviderName(){
+    public String getNewProviderName() {
         throw new UnsupportedOperationException();
     }
 }

@@ -30,32 +30,32 @@ import static org.junit.Assert.assertNotNull;
  * Test cases for the formatting API.
  * Created by Anatole on 21.03.14.
  */
-public class FormattingTest{
+public class FormattingTest {
 
     private Formatting formatting = new Formatting();
 
     @Test
-    public void testGetAmountFormat() throws Exception{
-        for(Locale loc : DecimalFormat.getAvailableLocales()){
+    public void testGetAmountFormat() throws Exception {
+        for (Locale loc : DecimalFormat.getAvailableLocales()) {
             MonetaryAmountFormat fmt = formatting.getAmountFormat(loc);
-            assertEquals(fmt.getAmountFormatContext().getLocale(), loc);
+            assertEquals(fmt.getContext().getLocale(), loc);
         }
     }
 
     @Test
-    public void testGetAmountFormat1() throws Exception{
-        for(Locale loc : DecimalFormat.getAvailableLocales()){
+    public void testGetAmountFormat1() throws Exception {
+        for (Locale loc : DecimalFormat.getAvailableLocales()) {
             MonetaryAmountFormat fmt = formatting.getAmountFormat(loc);
             assertEquals(fmt, MonetaryFormats.getAmountFormat(loc));
         }
     }
 
     @Test
-    public void testCreateCustomFormat() throws Exception{
+    public void testCreateCustomFormat() throws Exception {
         MonetaryOperator outOp = (value) -> value.divide(1000000);
-        MonetaryOperator inOp = new MonetaryOperator(){
+        MonetaryOperator inOp = new MonetaryOperator() {
             @Override
-            public MonetaryAmount apply(MonetaryAmount value){
+            public MonetaryAmount apply(MonetaryAmount value) {
                 return value.multiply(1000000);
             }
         };
@@ -71,7 +71,7 @@ public class FormattingTest{
     }
 
     @Test
-    public void testRegisterCustomFormat(){
+    public void testRegisterCustomFormat() {
         String formatId = formatting.getRegisteredCustomFormat();
         assertNotNull(formatId);
         AmountFormatQuery ctx = AmountFormatQueryBuilder.of(formatId).build();
@@ -80,7 +80,7 @@ public class FormattingTest{
     }
 
     @Test
-    public void testAvailableLocales(){
+    public void testAvailableLocales() {
         Collection<Locale> locales = formatting.getAvailableLocales();
         assertEquals(MonetaryFormats.getAvailableLocales(), locales);
     }

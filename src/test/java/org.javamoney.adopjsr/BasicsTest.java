@@ -30,25 +30,24 @@ import static org.junit.Assert.*;
  * Test class to ensure the basic core API is well understood.
  * Created by Anatole on 07.03.14.
  */
-public class BasicsTest{
+public class BasicsTest {
 
     private Basics basics = new Basics();
 
     @Test
-    public void testGetProvidedCurrency() throws Exception{
-        for(Currency cur : Currency.getAvailableCurrencies()){
+    public void testGetProvidedCurrency() throws Exception {
+        for (Currency cur : Currency.getAvailableCurrencies()) {
             assertNotNull(basics.getProvidedCurrency(cur.getCurrencyCode()));
         }
     }
 
     @Test
-    public void testGetProvidedCurrency1() throws Exception{
-        for(String country : Locale.getISOCountries()){
+    public void testGetProvidedCurrency1() throws Exception {
+        for (String country : Locale.getISOCountries()) {
             Locale locale = new Locale("", country);
-            try{
+            try {
                 Currency.getInstance(locale);
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 continue;
             }
             assertNotNull(basics.getProvidedCurrency(locale));
@@ -56,7 +55,7 @@ public class BasicsTest{
     }
 
     @Test
-    public void testBuildCustomCurrency() throws Exception{
+    public void testBuildCustomCurrency() throws Exception {
         CurrencyUnit cur = basics.buildCustomCurrency("BTC", -1, 10);
         assertEquals("BTC", cur.getCurrencyCode());
         assertEquals(-1, cur.getNumericCode());
@@ -68,7 +67,7 @@ public class BasicsTest{
     }
 
     @Test
-    public void testBuildAndRegisterCustomCurrency() throws Exception{
+    public void testBuildAndRegisterCustomCurrency() throws Exception {
         CurrencyUnit cur = basics.buildAndRegisterCustomCurrency("GeeCOIN", 2014, 0);
         assertEquals("GeeCOIN", cur.getCurrencyCode());
         assertEquals(2014, cur.getNumericCode());
@@ -81,7 +80,7 @@ public class BasicsTest{
     }
 
     @Test
-    public void testGetMonetaryAmountTypes() throws Exception{
+    public void testGetMonetaryAmountTypes() throws Exception {
         Collection<Class<? extends MonetaryAmount>> types = basics.getMonetaryAmountTypes();
         assertNotNull(types);
         assertTrue(types.contains(Money.class));
@@ -90,20 +89,20 @@ public class BasicsTest{
     }
 
     @Test
-    public void testGetDefaultMonetaryAmountType() throws Exception{
+    public void testGetDefaultMonetaryAmountType() throws Exception {
         Class<? extends MonetaryAmount> type = basics.getDefaultMonetaryAmountType();
         assertNotNull(type);
         assertEquals(type, Money.class);
     }
 
     @Test
-    public void testGetMoneyFactory() throws Exception{
+    public void testGetMoneyFactory() throws Exception {
         assertNotNull(basics.getMoneyFactory(Money.class));
         assertNotNull(basics.getMoneyFactory(FastMoney.class));
     }
 
     @Test
-    public void testGetMoney() throws Exception{
+    public void testGetMoney() throws Exception {
         MonetaryAmount amt = basics.getMoney(10.50d, "CHF");
         assertNotNull(amt);
         assertEquals("CHF", amt.getCurrency().getCurrencyCode());
@@ -115,7 +114,7 @@ public class BasicsTest{
     }
 
     @Test
-    public void testGetMoneyWithContext() throws Exception{
+    public void testGetMoneyWithContext() throws Exception {
         MonetaryContext preciseCtx = MonetaryContextBuilder.of().set("AmountFlavor", "PRECISION").build();
         MonetaryContext fastCtx = MonetaryContextBuilder.of().set("AmountFlavor", "PERFORMANCE").build();
         MonetaryAmount amt =
@@ -130,13 +129,13 @@ public class BasicsTest{
     }
 
     @Test
-    public void testGetMoneyWithSpecification() throws Exception{
+    public void testGetMoneyWithSpecification() throws Exception {
         MonetaryAmount amt =
                 basics.getMoneyWithSpecificCapabilities(new BigDecimal("10.50792323200000000000236823"), "CHF");
         assertNotNull(amt);
         assertEquals("CHF", amt.getCurrency().getCurrencyCode());
         assertEquals(new BigDecimal("10.50792323200000000000236823"), amt.getNumber().numberValue(BigDecimal.class));
-        MonetaryContext ctx = amt.getMonetaryContext();
+        MonetaryContext ctx = amt.getContext();
         assertTrue(ctx.getMaxScale() >= 128);
         assertTrue(ctx.getPrecision() >= 256 || ctx.getPrecision() == 0);
         assertEquals(ctx.get(RoundingMode.class), RoundingMode.FLOOR);
@@ -150,26 +149,26 @@ public class BasicsTest{
     }
 
     @Test
-    public void testConvertAmount(){
+    public void testConvertAmount() {
         MonetaryAmount converted =
                 basics.convertAmount(Money.of(200, "USD"), new BigDecimal("23628732374387462.87638476"), "GBP");
         assertNotNull(converted);
         assertEquals(new BigDecimal("23628732374387462.87638476"),
-                     converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
+                converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
         assertEquals("GBP", converted.getCurrency().getCurrencyCode());
     }
 
     @Test
-    public void testConvertAmountAdvanced(){
+    public void testConvertAmountAdvanced() {
         MonetaryAmount converted = basics.convertAmount(Money.of(200.234, "USD"), 200, 100, MathContext.UNLIMITED);
         assertNotNull(converted);
         assertEquals(new BigDecimal("200.234"),
-                     converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
+                converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
         assertEquals("USD", converted.getCurrency().getCurrencyCode());
         assertEquals(200, converted.getNumber().getPrecision());
-        assertEquals(200, converted.getMonetaryContext().getPrecision());
-        assertEquals(100, converted.getMonetaryContext().getMaxScale());
-        assertEquals(MathContext.UNLIMITED, converted.getMonetaryContext().get(MathContext.class));
+        assertEquals(200, converted.getContext().getPrecision());
+        assertEquals(100, converted.getContext().getMaxScale());
+        assertEquals(MathContext.UNLIMITED, converted.getContext().get(MathContext.class));
     }
 
 }
