@@ -165,7 +165,7 @@ public class MoneyAlgorithmicsTest{
     public void testDuplicateOperator(){
         MonetaryOperator op = alg.getDuplicateOperator();
         assertEquals(Money.of(20, "CHF"), Money.of(10, "CHF").with(op));
-        assertEquals(Money.of(20.86, "CHF"), Money.of(10.23, "CHF").with(op));
+        assertEquals(Money.of(20.86, "CHF"), Money.of(10.43, "CHF").with(op));
         assertEquals(Money.of(-4, "CHF"), Money.of(-2, "CHF").with(op));
         assertEquals(Money.of(0, "CHF"), Money.of(0, "CHF").with(op));
     }
