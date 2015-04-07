@@ -160,7 +160,7 @@ public class BasicsTest {
 
     @Test
     public void testConvertAmountAdvanced() {
-        MonetaryAmount converted = basics.convertAmount(Money.of(200.234, "USD"), 200, 100, MathContext.UNLIMITED);
+        MonetaryAmount converted = basics.convertAmount(Money.of(200.234, "USD"), 100, 200, MathContext.UNLIMITED);
         assertNotNull(converted);
         assertEquals(new BigDecimal("200.234"),
                 converted.getNumber().numberValue(BigDecimal.class).stripTrailingZeros());
