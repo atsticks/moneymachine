@@ -95,7 +95,7 @@ public class MoneyAlgorithmicsTest{
     @Test
     public void testCalculateReciprocal() throws Exception{
         MonetaryAmount amt = alg.calculateReciprocal(Money.of(10, "CHF"));
-        assertTrue(Money.of(210.45, "CHF").isEqualTo(amt));
+        assertTrue(Money.of(0.1, "CHF").isEqualTo(amt));
     }
 
     @Test
