@@ -78,7 +78,7 @@ public class Conversions {
      *
      * @param src the source/base {@link javax.money.CurrencyUnit}, not null
      * @param tgt the target {@link javax.money.CurrencyUnit}, not null
-     * @return the converted amount, not null.
+     * @return the conversion context, not null.
      * @see javax.money.convert.MonetaryConversions
      * @see javax.money.convert.CurrencyConversion
      * @see javax.money.MonetaryOperator
