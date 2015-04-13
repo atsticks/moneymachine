@@ -124,14 +124,8 @@ public class MoneyAlgorithmicsTest{
     public void testGetCompoundInterest() throws Exception{
         MonetaryAmount amt1 = alg.getCompoundInterest(FastMoney.of(100, "EUR"), 10.5, 1);
         assertTrue(Money.of(110.5, "EUR").isEqualTo(amt1));
-        MonetaryAmount amt2 = alg.getCompoundInterest(FastMoney.of(100, "EUR"), 10.5, 1);
-        assertTrue(amt1.multiply(0.105).isEqualTo(amt2));
-        MonetaryAmount amt3 = alg.getCompoundInterest(FastMoney.of(100, "EUR"), 10.5, 1);
-        assertTrue(amt2.multiply(0.105).isEqualTo(amt3));
-        MonetaryAmount amt4 = alg.getCompoundInterest(FastMoney.of(100, "EUR"), 10.5, 1);
-        assertTrue(amt3.multiply(0.105).isEqualTo(amt4));
-        MonetaryAmount amt5 = alg.getCompoundInterest(FastMoney.of(100, "EUR"), 10.5, 1);
-        assertTrue(amt4.multiply(0.105).isEqualTo(amt5));
+        MonetaryAmount amt2 = alg.getCompoundInterest(FastMoney.of(100, "EUR"), 10.5, 2);
+        assertTrue(amt1.multiply(1.105).isEqualTo(amt2));
     }
 
     @Test
