@@ -137,6 +137,7 @@ public class MoneyAlgorithmics {
      * @param amt the amount
      * @return the major part of it, with the same currency.
      * @see org.javamoney.moneta.function.MonetaryFunctions
+     * @see org.javamoney.moneta.function.MonetaryUtil
      */
     public MonetaryAmount getMajorPart(MonetaryAmount amt) {
         throw new UnsupportedOperationException();
