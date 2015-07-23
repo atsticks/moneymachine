@@ -39,7 +39,7 @@ public class RoundingTest{
     @Test
     public void testRoundWithDefaultRounding() throws Exception{
         for(Money m : moneys){
-            assertEquals(m.with(MonetaryRoundings.getDefaultRounding()), rnd.roundWithDefaultRounding(m));
+            assertEquals(m.with(Monetary.getDefaultRounding()), rnd.roundWithDefaultRounding(m));
         }
     }
 
@@ -47,7 +47,7 @@ public class RoundingTest{
     @Test
     public void testRoundForCash() throws Exception{
         for(Money m : moneys){
-            assertEquals(m.with(MonetaryRoundings.getRounding(
+            assertEquals(m.with(Monetary.getRounding(
                                  RoundingQueryBuilder.of().setCurrency(m.getCurrency()).set("cashRounding", true)
                                          .build())),
                          rnd.roundForCash(m));
@@ -58,7 +58,7 @@ public class RoundingTest{
     public void testRoundMathematical() throws Exception{
         RoundingQuery ctx = RoundingQueryBuilder.of().set(RoundingMode.HALF_UP).set("maxScale", 3).build();
         for(Money m : moneys){
-            assertEquals(rnd.roundMathematical(m), m.with(MonetaryRoundings.getRounding(ctx)));
+            assertEquals(rnd.roundMathematical(m), m.with(Monetary.getRounding(ctx)));
         }
     }
 
@@ -66,7 +66,7 @@ public class RoundingTest{
     public void testKnownRoundings() throws Exception{
         Collection<String> roundings = rnd.getKnownRoundings();
         assertNotNull(roundings);
-        Set<String> curSet = MonetaryRoundings.getRoundingNames();
+        Set<String> curSet = Monetary.getRoundingNames();
         for(String roundingId : curSet){
             assertTrue(roundings.contains(roundingId));
         }
@@ -82,7 +82,7 @@ public class RoundingTest{
     @Test
     public void testCustomRoundingName(){
         String rndId = rnd.getCustomRoundingName();
-        MonetaryOperator rounding = MonetaryRoundings.getRounding(rndId);
+        MonetaryOperator rounding = Monetary.getRounding(rndId);
         assertNotNull(rounding);
         for(Money m : moneys){
             assertNotNull(m.with(rounding));
