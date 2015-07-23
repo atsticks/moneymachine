@@ -87,7 +87,7 @@ public class MoneyAlgorithmicsTest{
     @Test
     public void testQuerySumOf() throws Exception{
         MonetaryAmount amt =
-                alg.querySumOf(MonetaryCurrencies.getCurrency("CHF"), FastMoney.of(10, "CHF"), Money.of(0, "CHF"),
+                alg.querySumOf(Monetary.getCurrency("CHF"), FastMoney.of(10, "CHF"), Money.of(0, "CHF"),
                                FastMoney.of(1, "USD"), Money.of(200.45, "CHF"), FastMoney.of(210, "USD"));
         assertTrue(Money.of(210.45, "CHF").isEqualTo(amt));
     }
@@ -131,7 +131,7 @@ public class MoneyAlgorithmicsTest{
     @Test
     public void testMultiplyAdvanced() throws Exception{
         MonetaryAmount amt1 = alg.multiplyAdvanced(FastMoney.of(100, "EUR"), BigDecimal.valueOf(Long.MAX_VALUE));
-        assertTrue(MonetaryAmounts.getDefaultAmountFactory().setNumber(100).setCurrency("EUR")
+        assertTrue(Monetary.getDefaultAmountFactory().setNumber(100).setCurrency("EUR")
                            .setContext(MonetaryContextBuilder.of().set(MathContext.UNLIMITED).build()).create()
                            .multiply(BigDecimal.valueOf(Long.MAX_VALUE)).isEqualTo(amt1));
     }
