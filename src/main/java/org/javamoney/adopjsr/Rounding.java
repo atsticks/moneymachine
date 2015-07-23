@@ -10,13 +10,13 @@
 package org.javamoney.adopjsr;
 
 import javax.money.MonetaryAmount;
-import javax.money.MonetaryRoundings;
+import javax.money.Monetary;
 import java.util.Collection;
 
 /**
  * Access roundings based on currency, as well as using customized rounding.
  *
- * @see MonetaryRoundings
+ * @see javax.money.Monetary
  * Created by Anatole on 08.03.14.
  */
 public class Rounding{
@@ -25,7 +25,7 @@ public class Rounding{
      * Round Amounts with the default rounding.
      *
      * @return the rounded amount
-     * @see javax.money.MonetaryRoundings
+     * @see javax.money.Monetary
      */
     public MonetaryAmount roundWithDefaultRounding(MonetaryAmount amount){
         // TODO implement this
@@ -39,7 +39,7 @@ public class Rounding{
      * when accessing the rounding.
      *
      * @return the rounded amount
-     * @see javax.money.MonetaryRoundings
+     * @see javax.money.Monetary
      * @see javax.money.RoundingContext
      */
     public MonetaryAmount roundForCash(MonetaryAmount amount){
