@@ -72,7 +72,7 @@ public class BasicsTest {
         assertEquals("GeeCOIN", cur.getCurrencyCode());
         assertEquals(2014, cur.getNumericCode());
         assertEquals(0, cur.getDefaultFractionDigits());
-        CurrencyUnit unit = MonetaryCurrencies.getCurrency("GeeCOIN");
+        CurrencyUnit unit = Monetary.getCurrency("GeeCOIN");
         assertNotNull("Currency not registered.", unit);
         assertEquals("GeeCOIN", unit.getCurrencyCode());
         assertEquals(2014, unit.getNumericCode());
